@@ -110,9 +110,10 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 �
 - Apps Script project **SCA Forms** created with `Code.gs` pasted and `SHEET_ID` set: https://script.google.com/home/projects/1kzA-ixxnJoYIabtR2l5W7r1jIn7NEbXAMko4qjX3GuJ0u0GjrPG9e2VN/edit
 - Figma: pages `02 · Astro site · Desktop` and `03 · Astro site · Mobile` hold DOM captures of all six pages (editable layers, Quicksand fonts). The 2024 section on Page 1 is marked superseded and a true-up note lists every content change.
 
+**Forms backend: live.** Apps Script web app deployed (`PUBLIC_FORM_ENDPOINT` set in GitHub Variables). Verified end to end on 2026-11-06: a browser submission on new.scarsdalechinese.com/contact/ landed in the `contact` tab of the SCA Members sheet and redirected to the thank-you page; info@ received the notification. Two test rows ("Website test (Claude)", "Browser test (Claude)") are in the contact tab and can be deleted.
+
 **Still to do (needs a human)**
-1. **Authorize the Apps Script** (one click): in the SCA Forms editor, Run → `setup` → "Review permissions" → choose scarsdalechineseassociation@gmail.com → Allow. Then Deploy → New deployment → Web app (Execute as Me, Anyone) → copy the URL → GitHub repo Settings → Variables → `PUBLIC_FORM_ENDPOINT`. Until then, forms show "form service is not configured" and fall back to email.
-2. Collect 9 board headshots (square JPG) → `public/board/` and add `"photo"` in `src/content/data/board.json`.
-3. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
-4. Review new.scarsdalechinese.com; when approved, switch the main domain: in hPanel, point the Git deployment at scarsdalechinese.com's `public_html` (or swap domains), keep a WordPress backup first.
-5. Optional phase 2: Stripe webhook → Sheet (see scripts/apps-script/README.md), Chinese/English toggle, Decap CMS.
+1. Collect 9 board headshots (square JPG) → `public/board/` and add `"photo"` in `src/content/data/board.json`.
+2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
+3. Review new.scarsdalechinese.com; when approved, switch the main domain: in hPanel, point the Git deployment at scarsdalechinese.com's `public_html` (or swap domains), keep a WordPress backup first.
+4. Optional phase 2: Stripe webhook → Sheet (see scripts/apps-script/README.md), Chinese/English toggle, Decap CMS.
