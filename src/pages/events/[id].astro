@@ -19,13 +19,16 @@ const isPast = d.date < today;
 const showRsvp = !isPast && !d.rsvpUrl;
 const isoDate = d.date.toISOString().slice(0, 10);
 const ld = {
-  "@context": "https://schema.org", "@type": "Event", name: d.title, startDate: d.date.toISOString().slice(0, 10), description: d.summary,
-  location: d.location ? { "@type": "Place", name: d.location, address: d.address } : undefined,
-  organizer: { "@type": "Organization", name: site.name, url: site.url },
+  "@type": "Event", name: d.title, startDate: d.date.toISOString().slice(0, 10), description: d.summary,
+  image: d.image ? new URL(d.image.src, site.url).href : undefined,
+  location: d.location ? { "@type": "Place", name: d.location, address: d.address ?? "Scarsdale, NY" } : undefined,
+  organizer: { "@id": `${site.url}/#org` },
   eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  url: new URL(`/events/${event.id}/`, site.url).href,
 };
 ---
-<Base title={d.title} description={d.summary}>
+<Base title={d.title} description={d.summary} ogImage={d.image ? d.image.src : undefined} jsonLd={[ld]}>
   <article class="section">
     <div class="container-site grid gap-10 lg:grid-cols-[5fr_7fr]">
       {d.image && <Image src={d.image} alt={d.imageAlt ?? d.title} class="w-full rounded-2xl shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" />}
@@ -61,5 +64,4 @@ const ld = {
     </section>
   )}
   <FormScript />
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
 </Base>

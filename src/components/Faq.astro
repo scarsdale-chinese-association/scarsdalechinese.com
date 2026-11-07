@@ -3,7 +3,13 @@ import { getCollection } from "astro:content";
 interface Props { page: "membership" | "sponsors" | "senior-club"; title?: string; }
 const { page, title = "FAQ" } = Astro.props;
 const items = (await getCollection("faq", (e) => e.data.page === page)).sort((a, b) => a.data.order - b.data.order);
+const faqLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: items.map((i) => ({ "@type": "Question", name: i.data.question, acceptedAnswer: { "@type": "Answer", text: i.data.answer } })),
+};
 ---
+<script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
 <section class="section">
   <div class="container-site">
     <h2 class="section-title">{title}</h2>

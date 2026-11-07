@@ -1,0 +1,18 @@
+# Scarsdale Chinese Association (SCA)
+
+> Scarsdale Chinese Association (斯卡斯代尔华人协会) is a 501(c)(3) non-profit, non-political community organization serving Chinese families in Scarsdale, New York, founded in 2018. It runs a Spring Festival (Lunar New Year) Gala, youth concerts, seasonal festivals, coffee mornings, educational seminars and a weekly Senior Club, and partners with the Village of Scarsdale.
+
+Key facts
+- Family membership: $40 per year per household, paid by card (Stripe) or Zelle. Join at https://scarsdalechinese.com/join/
+- Contact: info@scarsdalechinese.com · (703) 798-7886 · P.O. Box 172, Scarsdale, NY 10583
+- Senior Club: every Tuesday 9:30–11:30 AM, September–June, at the Girl Scout House, 37 Wayside Lane, Scarsdale. Run with the Village of Scarsdale ($15/yr Village fee).
+- Sponsorship and tax-deductible donations: https://scarsdalechinese.com/sponsors/
+- Website source: https://github.com/scarsdale-chinese-association/scarsdalechinese.com
+
+Pages
+- [Home](https://scarsdalechinese.com/): mission, upcoming events, membership form, board
+- [Events](https://scarsdalechinese.com/events/): upcoming and past events with details and RSVP
+- [Join](https://scarsdalechinese.com/join/): membership registration and FAQ
+- [Sponsors](https://scarsdalechinese.com/sponsors/): sponsor list, sponsorship form, FAQ
+- [Senior Club](https://scarsdalechinese.com/senior-club/): weekly club for Chinese-speaking seniors, how to join
+- [Contact](https://scarsdalechinese.com/contact/)

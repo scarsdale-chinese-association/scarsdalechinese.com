@@ -14,6 +14,11 @@ export const site = {
   address: "P.O. Box 172, Scarsdale, NY 10583",
   addressZh: "邮政信箱 172 斯卡斯代尔，纽约 10583",
   foundedYear: 2018,
+  /** GA4 measurement id (G-XXXXXXX). Set PUBLIC_GA_ID at build time; empty disables the tag. */
+  gaId: import.meta.env.PUBLIC_GA_ID ?? "",
+  sameAs: [
+    "https://github.com/scarsdale-chinese-association",
+  ],
 };
 
 export const membership = {

@@ -8,8 +8,11 @@ interface Props {
   title: string;
   description?: string;
   ogImage?: string;
+  /** Extra JSON-LD objects for this page (Event, FAQPage, ...). */
+  jsonLd?: Record<string, unknown>[];
+  noindex?: boolean;
 }
-const { title, description = site.description, ogImage = "/og-default.jpg" } = Astro.props;
+const { title, description = site.description, ogImage = "/og-default.png", jsonLd = [], noindex = false } = Astro.props;
 const fullTitle = title === site.name ? title : `${title} · ${site.name}`;
 const canonical = new URL(Astro.url.pathname, site.url).href;
 ---
@@ -35,15 +38,49 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta name="theme-color" content="#c00000" />
     <meta name="generator" content={Astro.generator} />
     {import.meta.env.DEV && <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>}
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:image:alt" content={`${site.name} · 斯卡斯代尔华人协会`} />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
-      "@type": "NGO",
-      name: site.name,
-      url: site.url,
-      email: site.email,
-      telephone: site.phone,
-      address: { "@type": "PostalAddress", postOfficeBoxNumber: "172", addressLocality: "Scarsdale", addressRegion: "NY", postalCode: "10583", addressCountry: "US" },
+      "@graph": [
+        {
+          "@type": ["NGO", "Organization"],
+          "@id": `${site.url}/#org`,
+          name: site.name,
+          alternateName: ["SCA", "斯卡斯代尔华人协会"],
+          url: site.url,
+          logo: `${site.url}/favicon.png`,
+          email: site.email,
+          telephone: site.phone,
+          foundingDate: String(site.foundedYear),
+          nonprofitStatus: "https://schema.org/Nonprofit501c3",
+          areaServed: { "@type": "Place", name: "Scarsdale, New York" },
+          address: { "@type": "PostalAddress", postOfficeBoxNumber: "172", addressLocality: "Scarsdale", addressRegion: "NY", postalCode: "10583", addressCountry: "US" },
+          sameAs: site.sameAs,
+        },
+        {
+          "@type": "WebSite",
+          "@id": `${site.url}/#website`,
+          url: site.url,
+          name: site.name,
+          publisher: { "@id": `${site.url}/#org` },
+          inLanguage: "en-US",
+        },
+        ...jsonLd,
+      ],
     })} />
+    {site.gaId && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${site.gaId}`}></script>
+        <script is:inline define:vars={{ gaId: site.gaId }}>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){ dataLayer.push(arguments); }
+          gtag('js', new Date());
+          gtag('config', gaId, { anonymize_ip: true });
+        </script>
+      </>
+    )}
   </head>
   <body class="flex min-h-screen flex-col">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2 focus:text-red">Skip to content</a>
