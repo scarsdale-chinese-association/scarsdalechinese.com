@@ -1,40 +1,56 @@
 ---
 import { site, nav } from "../lib/site";
+import { localizePath, switchLocalePath, useTranslations, type Locale } from "../i18n/utils";
+interface Props { locale?: Locale; }
+const { locale = "en" } = Astro.props;
+const t = useTranslations(locale);
+const l = (href: string) => localizePath(href, locale);
 const path = Astro.url.pathname;
-const isActive = (href: string) => path === href || (href !== "/" && path.startsWith(href));
+const isActive = (href: string) => path === l(href) || (href !== "/" && path.startsWith(l(href)));
+const items = nav.map((i) => ({ href: l(i.href), label: locale === "zh" ? i.labelZh : i.label, active: isActive(i.href) }));
+/** Same page in the other language. */
+const togglePath = switchLocalePath(path, locale);
+const siteName = locale === "zh" ? site.nameZh : site.name;
 ---
 
 <header class="sticky top-0 z-40 border-b border-line/60 bg-white/95 backdrop-blur">
   <div class="container-site flex h-16 items-center justify-between gap-4 sm:h-20">
-    <a href="/" class="flex items-center gap-3 text-base font-bold text-ink sm:text-lg lg:text-xl" aria-label={`${site.name} home`}>
+    <a href={l("/")} class:list={["flex min-w-0 items-center gap-2 font-bold text-ink sm:gap-3 sm:text-lg lg:text-xl", locale === "zh" ? "text-[15px]" : "text-base"]} aria-label={t("a11y.homeLink", { name: siteName })}>
       <span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-red text-sm font-extrabold text-white">SCA</span>
-      <span class="leading-tight">Scarsdale Chinese<span class="hidden sm:inline"> Association</span></span>
+      {locale === "zh" ? (
+        <span class="whitespace-nowrap leading-tight">{site.nameZh}</span>
+      ) : (
+        <span class="leading-tight">Scarsdale Chinese<span class="hidden sm:inline"> Association</span></span>
+      )}
     </a>
 
-    <nav class="hidden items-center gap-7 lg:flex" aria-label="Primary">
-      {nav.map((item) => (
-        <a href={item.href} class:list={["text-[15px] font-semibold text-ink/80 transition hover:text-red", { "text-red": isActive(item.href) }]} aria-current={isActive(item.href) ? "page" : undefined}>
+    <nav class="hidden items-center gap-7 lg:flex" aria-label={t("nav.primary")}>
+      {items.map((item) => (
+        <a href={item.href} class:list={["text-[15px] font-semibold text-ink/80 transition hover:text-red", { "text-red": item.active }]} aria-current={item.active ? "page" : undefined}>
           {item.label}
         </a>
       ))}
-      <a href="/join/" class="btn-red px-6">Join SCA</a>
+      <a href={togglePath} class="whitespace-nowrap rounded-md border border-line px-3 py-1.5 text-sm font-semibold text-ink/80 transition hover:border-red hover:text-red" lang={locale === "en" ? "zh-CN" : "en"} hreflang={locale === "en" ? "zh-CN" : "en"} aria-label={t("lang.toggleAria")} data-lang-toggle>{t("lang.toggle")}</a>
+      <a href={l("/join/")} class="btn-red px-6">{t("nav.join")}</a>
     </nav>
 
-    <div class="flex items-center gap-3 lg:hidden">
-      <a href="/join/" class="btn-red px-4 py-2 text-xs sm:text-sm">Join SCA</a>
-      <button id="nav-toggle" type="button" class="grid h-10 w-10 place-items-center rounded-md border border-line text-ink" aria-controls="mobile-nav" aria-expanded="false" aria-label="Open menu">
+    <div class="flex shrink-0 items-center gap-2 lg:hidden sm:gap-3">
+      <a href={togglePath} class="whitespace-nowrap rounded-md border border-line px-2.5 py-2 text-xs font-semibold text-ink/80 sm:text-sm" lang={locale === "en" ? "zh-CN" : "en"} hreflang={locale === "en" ? "zh-CN" : "en"} aria-label={t("lang.toggleAria")} data-lang-toggle><span class="sm:hidden">{t("lang.toggleShort")}</span><span class="hidden sm:inline">{t("lang.toggle")}</span></a>
+      <a href={l("/join/")} class="btn-red whitespace-nowrap px-3 py-2 text-xs sm:px-4 sm:text-sm">{t("nav.join")}</a>
+      <button id="nav-toggle" type="button" class="grid h-10 w-10 place-items-center rounded-md border border-line text-ink" aria-controls="mobile-nav" aria-expanded="false" aria-label={t("nav.openMenu")} data-label-open={t("nav.openMenu")} data-label-close={t("nav.closeMenu")}>
         <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
       </button>
     </div>
   </div>
 
   <div id="mobile-nav" class="hidden border-t border-line/60 bg-white lg:hidden">
-    <nav class="container-site flex flex-col py-2" aria-label="Mobile">
-      <a href="/" class="py-3 text-base font-semibold text-ink/80">Home</a>
-      {nav.map((item) => (
-        <a href={item.href} class:list={["border-t border-line/50 py-3 text-base font-semibold text-ink/80", { "text-red": isActive(item.href) }]}>{item.label}</a>
+    <nav class="container-site flex flex-col py-2" aria-label={t("nav.mobile")}>
+      <a href={l("/")} class="py-3 text-base font-semibold text-ink/80">{t("nav.home")}</a>
+      {items.map((item) => (
+        <a href={item.href} class:list={["border-t border-line/50 py-3 text-base font-semibold text-ink/80", { "text-red": item.active }]}>{item.label}</a>
       ))}
-      <a href="/join/" class="border-t border-line/50 py-3 text-base font-semibold text-red">Join SCA · Become a member</a>
+      <a href={l("/join/")} class="border-t border-line/50 py-3 text-base font-semibold text-red">{t("nav.joinLong")}</a>
+      <a href={togglePath} class="border-t border-line/50 py-3 text-base font-semibold text-ink/80" lang={locale === "en" ? "zh-CN" : "en"} hreflang={locale === "en" ? "zh-CN" : "en"}>{t("lang.toggle")}</a>
     </nav>
   </div>
 </header>
@@ -45,6 +61,6 @@ const isActive = (href: string) => path === href || (href !== "/" && path.starts
   btn?.addEventListener("click", () => {
     const open = menu?.classList.toggle("hidden") === false;
     btn.setAttribute("aria-expanded", String(open));
-    btn.setAttribute("aria-label", open ? "Close menu" : "Open menu");
+    btn.setAttribute("aria-label", (open ? btn.dataset.labelClose : btn.dataset.labelOpen) ?? "");
   });
 </script>

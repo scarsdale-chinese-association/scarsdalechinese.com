@@ -1,0 +1,28 @@
+---
+import Base from "../../layouts/Base.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import FormScript from "../../components/FormScript.astro";
+import { site } from "../../lib/site";
+import { getLocale, localeStaticPaths, useTranslations } from "../../i18n/utils";
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+---
+<Base title={t("contact.metaTitle")} description={t("contact.metaDescription")} locale={locale}>
+  <section class="section bg-cream">
+    <div class="container-site grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <SectionHeading title={t("contact.title")} intro={t("contact.intro")} />
+        <ul class="mt-6 space-y-2 text-[15px]">
+          <li>✉️ <a href={`mailto:${site.email}`} class="font-semibold hover:text-red">{site.email}</a></li>
+          <li>☎️ <a href={site.phoneHref} class="font-semibold hover:text-red">{site.phone}</a></li>
+          <li>📮 {locale === "zh" ? site.addressZh : site.address}</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8"><ContactForm locale={locale} /></div>
+    </div>
+  </section>
+  <FormScript locale={locale} />
+</Base>

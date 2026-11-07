@@ -13,8 +13,18 @@ New to managing this site? Start with [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | Board members | `src/content/data/board.json` (`"avatar": "female"` or `"male"` picks the silhouette; add `"photo": "/board/<file>.jpg"` once headshots are in `public/board/`) |
 | Sponsors | `src/content/data/sponsors.json` + image in `src/assets/sponsors/` |
 | FAQ | `src/content/data/faq.json` |
-| Contact info, price, Zelle | `src/lib/site.ts` |
-| Page copy | `src/pages/*.astro` |
+| Contact info, price, Zelle | `src/lib/site.ts` (Chinese twins: `nameZh`, `addressZh`, `priceLabelZh`, `scheduleZh`, nav `labelZh`) |
+| Page copy, buttons, form labels (English **and** Chinese) | `src/i18n/ui.ts`: one `en` block and one `zh` block with the same keys |
+| Page layout | `src/pages/[...locale]/*.astro` (each file renders both `/…` and `/zh/…`) |
+| Chinese version of an event | `src/content/events-zh/<same-slug>.md` (title, summary, Chinese body) |
+| Chinese FAQ | `questionZh` / `answerZh` fields in `src/content/data/faq.json` |
+
+### Languages
+
+Every page exists in English (default, no prefix) and Simplified Chinese under `/zh/`. The header has a
+toggle ("中文" / "English") that jumps to the same page in the other language. To change a Chinese
+sentence, find its key in `src/i18n/ui.ts` and edit the `zh` value; to add a new string, add the key to
+both blocks. `npm run build` fails if a key is missing from `zh`.
 
 Push to `main` and the site deploys itself (GitHub Actions builds, Hostinger publishes the `deploy` branch).
 

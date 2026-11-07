@@ -77,7 +77,8 @@ Each of these is a plain-English request. Claude Code knows the repo layout from
 **Add an upcoming event.** "Add an event: Lunar New Year Gala, Saturday Feb 14 2026, 5–9 PM, Scarsdale
 High School auditorium, 1057 Post Road. Here is the flyer (attach the image). Summary: …" → it creates
 `src/content/events/<slug>.md`, puts the flyer in `src/assets/events/`, and the event appears on the
-home page and Events page with an RSVP form. RSVPs land in the `rsvp` tab of the Sheet. If tickets are
+home page and Events page with an RSVP form. Say "in English and Chinese" and it also writes
+`src/content/events-zh/<slug>.md` so the `/zh/` pages show the event in Chinese. RSVPs land in the `rsvp` tab of the Sheet. If tickets are
 sold elsewhere (Eventbrite, a Google Form), say so and it sets `rsvpUrl` instead of showing the RSVP form.
 
 **After an event.** Nothing to do: once the date passes it moves to "Past events" automatically. If you
@@ -94,7 +95,17 @@ Until there is a headshot, each member shows a red head silhouette; `"avatar": "
 (and you must also change the Stripe price; Claude Code will remind you). "Reword the second paragraph
 on the Senior Club page to …" → `src/pages/senior-club.astro`.
 
-**FAQ.** "Add a FAQ to the Join page: Can I pay by check? …" → `src/content/data/faq.json`.
+**FAQ.** "Add a FAQ to the Join page: Can I pay by check? …" → `src/content/data/faq.json`. Give it a
+`questionZh` and `answerZh` too so the Chinese page shows it in Chinese (or ask Claude Code to translate).
+
+**Chinese text.** Every page has a Chinese twin at the same address with `/zh/` in front
+(scarsdalechinese.com/zh/join/), and the header toggle switches between them. All buttons, headings and
+page copy live in one file, `src/i18n/ui.ts`, as pairs of English and Chinese. "Change the Chinese hero
+headline to …" or "Translate the new paragraph on the Senior Club page" → Claude Code edits the `zh`
+value for that key. Site facts that differ in Chinese (address, price wording, Senior Club schedule, menu
+labels) are the `…Zh` fields in `src/lib/site.ts`. For an event, the Chinese version is a small file in
+`src/content/events-zh/` with the same file name as the English one; "Add a Chinese version of the
+Lunar New Year Gala page" creates it. Events without one still appear on the Chinese site with English text.
 
 **Publish.** "Build and push." Claude Code runs `npm run build` (this also validates the content files),
 commits with a clear message, and pushes to `main`. Check the Actions tab is green, then look at the
@@ -119,6 +130,8 @@ deployment so the URL stays the same.
 - Never edit the `deploy` branch, and never upload files by FTP to Hostinger; the next push would erase them.
 - Don't remove the hidden `_gotcha` field from forms; it is the spam trap.
 - Keep `AGENTS.md` current if you change how something works, so Claude Code keeps doing the right thing.
+- New text goes into `src/i18n/ui.ts` in both English and Chinese, never typed straight into a page. If the
+  build complains about a missing key, the Chinese half was forgotten.
 
 ## 6. Open items handed over
 
@@ -128,8 +141,8 @@ deployment so the URL stays the same.
    Subscriptions → update each, or leave them grandfathered).
 4. Delete the leftover test rows in the Sheet's `contact` and `rsvp` tabs (labelled as tests).
 5. Optional later: Stripe webhook so card payments mark the Sheet row paid automatically
-   (`scripts/apps-script/README.md`), a Chinese-language toggle, a browser-based CMS (Decap) if non-technical
-   board members want to edit without Claude Code.
+   (`scripts/apps-script/README.md`), a browser-based CMS (Decap) if non-technical board members want to
+   edit without Claude Code. (The Chinese-language toggle is done.)
 
 ## 7. Kickoff prompt for Claude Code
 

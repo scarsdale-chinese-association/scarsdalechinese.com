@@ -3,14 +3,28 @@
  * Shared client-side handler for every form on the site.
  * Any <form data-sca-form="<type>" data-success="<url>"> is posted as JSON (text/plain body, so no CORS preflight)
  * to the Apps Script endpoint. data-success may contain {method} which is replaced by the chosen payment method.
+ * Status messages come from the dictionary for the page's locale and are handed to the script as data.
  */
 import { formEndpoint } from "../lib/site";
+import { useTranslations, type Locale } from "../i18n/utils";
+interface Props { locale?: Locale; }
+const { locale = "en" } = Astro.props;
+const t = useTranslations(locale);
+const messages = {
+  sending: t("form.sending"),
+  unconfigured: t("form.unconfigured"),
+  error: t("form.error"),
+  submit: t("form.submit"),
+  thankYou: locale === "zh" ? "/zh/thank-you/" : "/thank-you/",
+};
 ---
-<script is:inline define:vars={{ formEndpoint }}>
+<script is:inline define:vars={{ formEndpoint, messages }}>
   window.__SCA_FORM_ENDPOINT = formEndpoint;
+  window.__SCA_FORM_MESSAGES = messages;
 </script>
 <script>
   const endpoint: string = (window as any).__SCA_FORM_ENDPOINT || "";
+  const msg: Record<string, string> = (window as any).__SCA_FORM_MESSAGES || {};
 
   document.querySelectorAll<HTMLFormElement>("form[data-sca-form]").forEach((form) => {
     const status = form.querySelector<HTMLElement>("[data-status]");
@@ -30,22 +44,22 @@ import { formEndpoint } from "../lib/site";
       delete data._gotcha;
 
       const method = data.paymentMethod || "";
-      const successUrl = (form.dataset.success || "/thank-you/").replace("{method}", method);
+      const successUrl = (form.dataset.success || msg.thankYou || "/thank-you/").replace("{method}", method);
       const stripeUrl = form.dataset.stripe || "";
 
-      const say = (msg: string, isError = false) => {
+      const say = (text: string, isError = false) => {
         if (!status) return;
-        status.textContent = msg;
+        status.textContent = text;
         status.className = `mt-3 text-sm ${isError ? "text-red font-semibold" : "text-muted"}`;
       };
 
       if (!endpoint) {
-        say("The form service is not configured yet. Please email info@scarsdalechinese.com instead.", true);
+        say(msg.unconfigured, true);
         return;
       }
 
-      if (button) { button.disabled = true; button.dataset.label = button.textContent ?? ""; button.textContent = "Sending…"; }
-      say("Sending…");
+      if (button) { button.disabled = true; button.dataset.label = button.textContent ?? ""; button.textContent = msg.sending; }
+      say(msg.sending);
 
       try {
         const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(data) });
@@ -62,8 +76,8 @@ import { formEndpoint } from "../lib/site";
         location.assign(successUrl);
       } catch (err) {
         console.error(err);
-        say("Sorry, something went wrong sending the form. Please try again or email info@scarsdalechinese.com.", true);
-        if (button) { button.disabled = false; button.textContent = button.dataset.label || "Submit"; }
+        say(msg.error, true);
+        if (button) { button.disabled = false; button.textContent = button.dataset.label || msg.submit; }
       }
     });
   });

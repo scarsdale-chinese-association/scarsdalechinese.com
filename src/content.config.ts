@@ -21,6 +21,23 @@ const events = defineCollection({
     }),
 });
 
+/**
+ * Chinese versions of event pages, one file per event in src/content/events-zh/<same-slug>.md.
+ * Only the fields that read differently in Chinese; date, image and RSVP settings come from the English file.
+ * Events without a file here fall back to `titleZh` (if set) and the English summary and body.
+ */
+const eventsZh = defineCollection({
+  loader: glob({ pattern: "**/*.md", base: "./src/content/events-zh" }),
+  schema: z.object({
+    title: z.string(),
+    summary: z.string(),
+    time: z.string().optional(),
+    location: z.string().optional(),
+    address: z.string().optional(),
+    rsvpLabel: z.string().optional(),
+  }),
+});
+
 const board = defineCollection({
   loader: file("./src/content/data/board.json"),
   schema: z.object({
@@ -55,8 +72,11 @@ const faq = defineCollection({
     page: z.enum(["membership", "sponsors", "senior-club"]),
     question: z.string(),
     answer: z.string(),
+    /** Chinese twins shown on /zh/ pages. Leave out for entries already written in Chinese. */
+    questionZh: z.string().optional(),
+    answerZh: z.string().optional(),
     order: z.number(),
   }),
 });
 
-export const collections = { events, board, sponsors, faq };
+export const collections = { events, eventsZh, board, sponsors, faq };

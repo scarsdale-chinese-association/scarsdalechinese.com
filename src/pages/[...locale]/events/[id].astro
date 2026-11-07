@@ -1,0 +1,86 @@
+---
+import { getCollection, getEntry, render } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../../layouts/Base.astro";
+import RsvpForm from "../../../components/RsvpForm.astro";
+import FormScript from "../../../components/FormScript.astro";
+import { site } from "../../../lib/site";
+import { eventDateFormatter, getLocale, localizePath, useTranslations } from "../../../i18n/utils";
+
+export async function getStaticPaths() {
+  const events = await getCollection("events");
+  return events.flatMap((event) => [
+    { params: { locale: undefined, id: event.id }, props: { event } },
+    { params: { locale: "zh", id: event.id }, props: { event } },
+  ]);
+}
+const { event } = Astro.props;
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+const l = (p: string) => localizePath(p, locale);
+const d = event.data;
+
+// Chinese pages use src/content/events-zh/<slug>.md when it exists, else titleZh + the English text.
+const zh = locale === "zh" ? await getEntry("eventsZh", event.id) : undefined;
+const { Content } = await render(zh ?? event);
+const title = zh?.data.title ?? (locale === "zh" ? d.titleZh : undefined) ?? d.title;
+const subtitle = locale === "zh" ? (title !== d.title ? d.title : undefined) : d.titleZh;
+const summary = zh?.data.summary ?? d.summary;
+const time = zh?.data.time ?? d.time;
+const location = zh?.data.location ?? d.location;
+const address = zh?.data.address ?? d.address;
+const rsvpLabel = zh?.data.rsvpLabel ?? d.rsvpLabel ?? t("event.rsvpDefault");
+
+const dateFmt = eventDateFormatter(locale, "long");
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const isPast = d.date < today;
+const showRsvp = !isPast && !d.rsvpUrl;
+const isoDate = d.date.toISOString().slice(0, 10);
+const ld = {
+  "@type": "Event", name: title, startDate: isoDate, description: summary,
+  inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+  image: d.image ? new URL(d.image.src, site.url).href : undefined,
+  location: d.location ? { "@type": "Place", name: d.location, address: d.address ?? "Scarsdale, NY" } : undefined,
+  organizer: { "@id": `${site.url}/#org` },
+  eventStatus: "https://schema.org/EventScheduled",
+  eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+  url: new URL(l(`/events/${event.id}/`), site.url).href,
+};
+---
+<Base title={title} description={summary} ogImage={d.image ? d.image.src : undefined} jsonLd={[ld]} locale={locale}>
+  <article class="section">
+    <div class="container-site grid gap-10 lg:grid-cols-[5fr_7fr]">
+      {d.image && <Image src={d.image} alt={d.imageAlt ?? d.title} class="w-full rounded-2xl shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 40vw, 100vw" loading="eager" />}
+      <div>
+        <a href={l("/events/")} class="text-sm font-semibold text-red hover:underline">{t("event.back")}</a>
+        {isPast && <p class="mt-4 inline-block rounded-md bg-cream px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-muted">{t("event.past")}</p>}
+        <h1 class="mt-3 text-3xl font-bold text-red sm:text-4xl">{title}</h1>
+        {subtitle && <p lang={locale === "zh" ? "en" : "zh-CN"} class="mt-1 text-lg text-muted">{subtitle}</p>}
+        <dl class="mt-6 grid gap-3 rounded-xl bg-cream p-5 text-[15px] sm:grid-cols-2">
+          <div><dt class="text-xs font-bold uppercase tracking-wide text-muted">{t("event.date")}</dt><dd class="font-semibold">{dateFmt.format(d.date)}</dd></div>
+          {time && <div><dt class="text-xs font-bold uppercase tracking-wide text-muted">{t("event.time")}</dt><dd class="font-semibold">{time}</dd></div>}
+          {location && <div class="sm:col-span-2"><dt class="text-xs font-bold uppercase tracking-wide text-muted">{t("event.location")}</dt><dd class="font-semibold">{location}{address && <span class="block font-normal text-muted">{address}</span>}</dd></div>}
+        </dl>
+        {!isPast && d.rsvpUrl && <a href={d.rsvpUrl} class="btn-red mt-6" rel="noopener">{rsvpLabel}</a>}
+        {showRsvp && <a href="#rsvp" class="btn-red mt-6">{t("event.rsvpAnchor")}</a>}
+        <div class="prose-sca mt-8 [&_strong]:font-bold [&_em]:italic"><Content /></div>
+      </div>
+    </div>
+  </article>
+  {showRsvp && (
+    <section id="rsvp" class="section scroll-mt-20 bg-cream">
+      <div class="container-site grid gap-10 lg:grid-cols-[5fr_7fr] lg:items-start">
+        <div>
+          <h2 class="section-title">{t("event.rsvpTitle")}</h2>
+          <div class="section-rule"></div>
+          <p class="prose-sca mt-5">{t("event.rsvpIntro")}</p>
+          <p class="mt-3 text-sm text-muted">{t("event.notMemberBefore")}<a href={l("/join/")} class="font-semibold text-red underline">{t("event.notMemberLink")}</a>{t("event.notMemberAfter")}</p>
+        </div>
+        <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8">
+          <RsvpForm eventTitle={d.title} eventSlug={event.id} eventDate={isoDate} locale={locale} />
+        </div>
+      </div>
+    </section>
+  )}
+  <FormScript locale={locale} />
+</Base>

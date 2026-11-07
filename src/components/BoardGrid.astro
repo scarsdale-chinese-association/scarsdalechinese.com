@@ -2,16 +2,24 @@
 /**
  * Board grid. Shows a headshot when `photo` is set, otherwise a red-on-cream head silhouette
  * (the old WordPress site used the same idea). `avatar: "female"` picks the long-hair silhouette;
- * anything else gets the short-hair bust.
+ * anything else gets the short-hair bust. On /zh/ pages roles are translated via `board.role.<Role>`
+ * keys in src/i18n/ui.ts and `nameZh` is shown when set.
  */
 import { getCollection } from "astro:content";
+import { tOptional, useTranslations, type Locale } from "../i18n/utils";
+interface Props { locale?: Locale; }
+const { locale = "en" } = Astro.props;
+const t = useTranslations(locale);
 const members = (await getCollection("board")).sort((a, b) => a.data.order - b.data.order);
 ---
 <ul class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5" role="list">
-  {members.map((m) => (
+  {members.map((m) => {
+    const name = locale === "zh" ? m.data.nameZh ?? m.data.name : m.data.name;
+    const role = tOptional(locale, `board.role.${m.data.role}`, m.data.role);
+    return (
     <li class="flex flex-col items-center rounded-xl bg-white p-5 text-center shadow-card ring-1 ring-line/60">
       {m.data.photo ? (
-        <img src={m.data.photo} alt={`Portrait of ${m.data.name}`} class="h-24 w-24 rounded-full object-cover ring-4 ring-cream" loading="lazy" width="96" height="96" />
+        <img src={m.data.photo} alt={t("board.portraitAlt", { name })} class="h-24 w-24 rounded-full object-cover ring-4 ring-cream" loading="lazy" width="96" height="96" />
       ) : (
         <svg class="h-24 w-24 rounded-full bg-cream text-red ring-4 ring-cream" viewBox="0 0 96 96" aria-hidden="true" focusable="false">
           {m.data.avatar === "female" ? (
@@ -21,8 +29,10 @@ const members = (await getCollection("board")).sort((a, b) => a.data.order - b.d
           )}
         </svg>
       )}
-      <p class="mt-4 font-bold text-ink">{m.data.name}</p>
-      <p class="text-sm text-muted">{m.data.role}</p>
+      <p class="mt-4 font-bold text-ink">{name}</p>
+      {locale === "zh" && m.data.nameZh && <p lang="en" class="text-xs text-muted">{m.data.name}</p>}
+      <p class="text-sm text-muted">{role}</p>
     </li>
-  ))}
+    );
+  })}
 </ul>

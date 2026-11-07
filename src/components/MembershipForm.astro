@@ -1,55 +1,58 @@
 ---
 import { membership } from "../lib/site";
 import ZelleBlock from "./ZelleBlock.astro";
-interface Props { compact?: boolean; }
-const { compact = false } = Astro.props;
+import { localizePath, useTranslations, type Locale } from "../i18n/utils";
+interface Props { compact?: boolean; locale?: Locale; }
+const { compact = false, locale = "en" } = Astro.props;
+const t = useTranslations(locale);
+const priceLabel = locale === "zh" ? membership.priceLabelZh : membership.priceLabel;
 ---
-<form data-sca-form="membership" data-success="/thank-you/?form=membership&method={method}" data-stripe={membership.stripeLink} class="space-y-4" novalidate>
+<form data-sca-form="membership" data-success={`${localizePath("/thank-you/", locale)}?form=membership&method={method}`} data-stripe={membership.stripeLink} data-label-stripe={t("form.submitStripe")} data-label-other={t("form.submitMembership")} class="space-y-4" novalidate>
   <div class="grid gap-4 sm:grid-cols-2">
-    <div><label class="label" for="m-first">First name <span class="text-red">*</span></label><input class="field" id="m-first" name="firstName" autocomplete="given-name" required /></div>
-    <div><label class="label" for="m-last">Last name <span class="text-red">*</span></label><input class="field" id="m-last" name="lastName" autocomplete="family-name" required /></div>
+    <div><label class="label" for="m-first">{t("form.firstName")} <span class="text-red">*</span></label><input class="field" id="m-first" name="firstName" autocomplete="given-name" required /></div>
+    <div><label class="label" for="m-last">{t("form.lastName")} <span class="text-red">*</span></label><input class="field" id="m-last" name="lastName" autocomplete="family-name" required /></div>
   </div>
   <div class="grid gap-4 sm:grid-cols-2">
-    <div><label class="label" for="m-email">Email <span class="text-red">*</span></label><input class="field" id="m-email" name="email" type="email" autocomplete="email" required /></div>
-    <div><label class="label" for="m-phone">Phone <span class="text-red">*</span></label><input class="field" id="m-phone" name="phone" type="tel" autocomplete="tel" required /></div>
+    <div><label class="label" for="m-email">{t("form.email")} <span class="text-red">*</span></label><input class="field" id="m-email" name="email" type="email" autocomplete="email" required /></div>
+    <div><label class="label" for="m-phone">{t("form.phone")} <span class="text-red">*</span></label><input class="field" id="m-phone" name="phone" type="tel" autocomplete="tel" required /></div>
   </div>
   <div>
-    <label class="label" for="m-wechat">WeChat ID(s) <span class="font-normal text-muted">· include all adult family members</span></label>
-    <input class="field" id="m-wechat" name="wechat" placeholder="e.g. wang_ke, cynthia_li" />
+    <label class="label" for="m-wechat">{t("form.wechat")} <span class="font-normal text-muted">· {t("form.wechatHint")}</span></label>
+    <input class="field" id="m-wechat" name="wechat" placeholder={t("form.wechatPlaceholder")} />
   </div>
   <div>
-    <label class="label" for="m-family">Family members <span class="font-normal text-muted">· names of everyone covered by this membership</span></label>
-    <input class="field" id="m-family" name="familyMembers" placeholder="e.g. Ke, Cynthia, Emma (12), Leo (9)" />
+    <label class="label" for="m-family">{t("form.family")} <span class="font-normal text-muted">· {t("form.familyHint")}</span></label>
+    <input class="field" id="m-family" name="familyMembers" placeholder={t("form.familyPlaceholder")} />
   </div>
   <div>
-    <label class="label" for="m-street">Street address</label>
+    <label class="label" for="m-street">{t("form.street")}</label>
     <input class="field" id="m-street" name="street" autocomplete="street-address" />
   </div>
   <div class="grid gap-4 sm:grid-cols-[1fr_6rem_8rem]">
-    <div><label class="label" for="m-city">City</label><input class="field" id="m-city" name="city" autocomplete="address-level2" value="Scarsdale" /></div>
-    <div><label class="label" for="m-state">State</label><input class="field" id="m-state" name="state" autocomplete="address-level1" value="NY" /></div>
-    <div><label class="label" for="m-zip">ZIP</label><input class="field" id="m-zip" name="zip" autocomplete="postal-code" inputmode="numeric" /></div>
+    <div><label class="label" for="m-city">{t("form.city")}</label><input class="field" id="m-city" name="city" autocomplete="address-level2" value="Scarsdale" /></div>
+    <div><label class="label" for="m-state">{t("form.state")}</label><input class="field" id="m-state" name="state" autocomplete="address-level1" value="NY" /></div>
+    <div><label class="label" for="m-zip">{t("form.zip")}</label><input class="field" id="m-zip" name="zip" autocomplete="postal-code" inputmode="numeric" /></div>
   </div>
 
   <fieldset class="rounded-lg border border-line bg-cream/60 p-4">
-    <legend class="px-1 text-sm font-bold">Payment · {membership.priceLabel}</legend>
+    <legend class="px-1 text-sm font-bold">{t("form.paymentWith", { price: priceLabel })}</legend>
     <div class="flex flex-col gap-3 sm:flex-row sm:gap-8">
-      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="stripe" class="h-4 w-4 accent-red" checked /> Pay by card (Stripe)</label>
-      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="zelle" class="h-4 w-4 accent-red" /> Pay by Zelle</label>
+      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="stripe" class="h-4 w-4 accent-red" checked /> {t("form.payCard")}</label>
+      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="zelle" class="h-4 w-4 accent-red" /> {t("form.payZelle")}</label>
     </div>
-    <p class="mt-2 text-xs text-muted" data-pay-hint="stripe">After you submit, you'll be taken to Stripe's secure checkout to pay ${membership.price}.</p>
-    <p class="mt-2 hidden text-xs text-muted" data-pay-hint="zelle">After you submit, we'll show the Zelle details. Membership is active once the treasurer confirms your payment.</p>
-    {!compact && <div class="mt-4 hidden" data-pay-hint="zelle"><ZelleBlock /></div>}
+    <p class="mt-2 text-xs text-muted" data-pay-hint="stripe">{t("form.stripeHint", { price: membership.price })}</p>
+    <p class="mt-2 hidden text-xs text-muted" data-pay-hint="zelle">{t("form.zelleHint")}</p>
+    {!compact && <div class="mt-4 hidden" data-pay-hint="zelle"><ZelleBlock locale={locale} /></div>}
   </fieldset>
 
   <label class="flex items-start gap-2 text-sm text-muted">
     <input type="checkbox" name="emailConsent" value="yes" class="mt-0.5 h-4 w-4 accent-red" checked />
-    <span>Yes, send me SCA news and event announcements by email. You can unsubscribe anytime.</span>
+    <span>{t("form.consent")}</span>
   </label>
 
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
 
-  <button type="submit" class="btn-red w-full py-3.5 text-base sm:w-auto sm:px-10">Submit &amp; continue to payment</button>
+  <button type="submit" class="btn-red w-full py-3.5 text-base sm:w-auto sm:px-10">{t("form.submitStripe")}</button>
   <p data-status class="mt-3 text-sm text-muted" aria-live="polite"></p>
 </form>
 
@@ -59,7 +62,7 @@ const { compact = false } = Astro.props;
       const method = (form.querySelector<HTMLInputElement>('input[name=paymentMethod]:checked')?.value) ?? "stripe";
       form.querySelectorAll<HTMLElement>("[data-pay-hint]").forEach((el) => el.classList.toggle("hidden", el.dataset.payHint !== method));
       const btn = form.querySelector<HTMLButtonElement>("button[type=submit]");
-      if (btn && !btn.disabled) btn.textContent = method === "stripe" ? "Submit & continue to payment" : "Submit membership form";
+      if (btn && !btn.disabled) btn.textContent = (method === "stripe" ? form.dataset.labelStripe : form.dataset.labelOther) ?? "";
     };
     form.querySelectorAll('input[name=paymentMethod]').forEach((r) => r.addEventListener("change", sync));
     sync();

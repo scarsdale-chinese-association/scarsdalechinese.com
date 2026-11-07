@@ -1,19 +1,23 @@
 ---
 import { membership } from "../lib/site";
 import ZelleBlock from "./ZelleBlock.astro";
+import { localizePath, useTranslations, type Locale } from "../i18n/utils";
+interface Props { locale?: Locale; }
+const { locale = "en" } = Astro.props;
+const t = useTranslations(locale);
 const amounts = [250, 500, 1000, 2000, 5000];
 ---
-<form data-sca-form="sponsor" data-success="/thank-you/?form=sponsor&method={method}" data-stripe={membership.stripeDonateLink} class="space-y-4" novalidate>
+<form data-sca-form="sponsor" data-success={`${localizePath("/thank-you/", locale)}?form=sponsor&method={method}`} data-stripe={membership.stripeDonateLink} class="space-y-4" novalidate>
   <div class="grid gap-4 sm:grid-cols-2">
-    <div><label class="label" for="s-company">Company / organization</label><input class="field" id="s-company" name="company" autocomplete="organization" /></div>
-    <div><label class="label" for="s-contact">Contact name <span class="text-red">*</span></label><input class="field" id="s-contact" name="name" autocomplete="name" required /></div>
+    <div><label class="label" for="s-company">{t("form.company")}</label><input class="field" id="s-company" name="company" autocomplete="organization" /></div>
+    <div><label class="label" for="s-contact">{t("form.contactName")} <span class="text-red">*</span></label><input class="field" id="s-contact" name="name" autocomplete="name" required /></div>
   </div>
   <div class="grid gap-4 sm:grid-cols-2">
-    <div><label class="label" for="s-email">Email <span class="text-red">*</span></label><input class="field" id="s-email" name="email" type="email" autocomplete="email" required /></div>
-    <div><label class="label" for="s-phone">Phone</label><input class="field" id="s-phone" name="phone" type="tel" autocomplete="tel" /></div>
+    <div><label class="label" for="s-email">{t("form.email")} <span class="text-red">*</span></label><input class="field" id="s-email" name="email" type="email" autocomplete="email" required /></div>
+    <div><label class="label" for="s-phone">{t("form.phone")}</label><input class="field" id="s-phone" name="phone" type="tel" autocomplete="tel" /></div>
   </div>
   <fieldset>
-    <legend class="label">Sponsorship amount</legend>
+    <legend class="label">{t("form.amount")}</legend>
     <div class="flex flex-wrap gap-2">
       {amounts.map((a, i) => (
         <label class="cursor-pointer rounded-md border border-line px-4 py-2 text-sm font-semibold has-[:checked]:border-red has-[:checked]:bg-red has-[:checked]:text-white">
@@ -21,23 +25,23 @@ const amounts = [250, 500, 1000, 2000, 5000];
         </label>
       ))}
       <label class="cursor-pointer rounded-md border border-line px-4 py-2 text-sm font-semibold has-[:checked]:border-red has-[:checked]:bg-red has-[:checked]:text-white">
-        <input type="radio" name="amount" value="other" class="sr-only" /> Other
+        <input type="radio" name="amount" value="other" class="sr-only" /> {t("form.amountOther")}
       </label>
     </div>
-    <input class="field mt-3 max-w-xs" name="amountOther" type="number" min="1" step="1" placeholder="Custom amount (USD)" aria-label="Custom amount" />
+    <input class="field mt-3 max-w-xs" name="amountOther" type="number" min="1" step="1" placeholder={t("form.customAmount")} aria-label={t("form.customAmount")} />
   </fieldset>
-  <div><label class="label" for="s-message">Message <span class="font-normal text-muted">· event you'd like to sponsor, in-kind offers, questions</span></label><textarea class="field min-h-28" id="s-message" name="message"></textarea></div>
+  <div><label class="label" for="s-message">{t("form.message")} <span class="font-normal text-muted">· {t("form.sponsorMessageHint")}</span></label><textarea class="field min-h-28" id="s-message" name="message"></textarea></div>
   <fieldset class="rounded-lg border border-line bg-cream/60 p-4">
-    <legend class="px-1 text-sm font-bold">Payment</legend>
+    <legend class="px-1 text-sm font-bold">{t("form.payment")}</legend>
     <div class="flex flex-col gap-3 sm:flex-row sm:gap-8">
-      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="stripe" class="h-4 w-4 accent-red" checked /> Pay by card (Stripe)</label>
-      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="zelle" class="h-4 w-4 accent-red" /> Pay by Zelle</label>
-      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="invoice" class="h-4 w-4 accent-red" /> Contact me first</label>
+      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="stripe" class="h-4 w-4 accent-red" checked /> {t("form.payCard")}</label>
+      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="zelle" class="h-4 w-4 accent-red" /> {t("form.payZelle")}</label>
+      <label class="flex cursor-pointer items-center gap-2 text-sm font-semibold"><input type="radio" name="paymentMethod" value="invoice" class="h-4 w-4 accent-red" /> {t("form.payInvoice")}</label>
     </div>
-    <div class="mt-4 hidden" data-pay-hint="zelle"><ZelleBlock amount="your chosen amount" note="Put your company name in the memo. We'll email a tax receipt." /></div>
+    <div class="mt-4 hidden" data-pay-hint="zelle"><ZelleBlock locale={locale} amount={t("zelle.chosenAmount")} note={t("zelle.sponsorNote")} /></div>
   </fieldset>
   <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true" />
-  <button type="submit" class="btn-red px-10">Submit</button>
+  <button type="submit" class="btn-red px-10">{t("form.submit")}</button>
   <p data-status class="mt-3 text-sm text-muted" aria-live="polite"></p>
 </form>
 <script>

@@ -8,6 +8,7 @@ Key facts
 - Senior Club: every Tuesday 9:30–11:30 AM, September–June, at the Girl Scout House, 37 Wayside Lane, Scarsdale. Run with the Village of Scarsdale ($15/yr Village fee).
 - Sponsorship and tax-deductible donations: https://scarsdalechinese.com/sponsors/
 - Website source: https://github.com/scarsdale-chinese-association/scarsdalechinese.com
+- Languages: English at https://scarsdalechinese.com/ and Simplified Chinese (简体中文) at https://scarsdalechinese.com/zh/ (same pages, add /zh/ in front of any path)
 
 Pages
 - [Home](https://scarsdalechinese.com/): mission, upcoming events, membership form, board

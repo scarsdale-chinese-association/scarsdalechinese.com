@@ -1,0 +1,106 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Faq from "../../components/Faq.astro";
+import { seniorClub } from "../../lib/site";
+import { getLocale, localeStaticPaths, localizePath, useTranslations } from "../../i18n/utils";
+import hero from "../../assets/photos/seniors/fan-dance-blue.jpg";
+import group from "../../assets/photos/seniors/club-group-fu.jpg";
+import house from "../../assets/photos/girl-scout-house.jpg";
+import gQipao from "../../assets/photos/seniors/qipao-show.jpg";
+import gFans from "../../assets/photos/seniors/fan-dance-pink.jpg";
+import gRedWall from "../../assets/photos/seniors/dance-red-wall.jpg";
+import gChoir from "../../assets/photos/seniors/choir-sca-gala.jpg";
+import gStairs from "../../assets/photos/seniors/dancers-stairs.jpg";
+import gPotluck from "../../assets/photos/seniors/potluck.jpg";
+import gHoliday from "../../assets/photos/seniors/holiday-celebration.jpg";
+import gQipao24 from "../../assets/photos/seniors/qipao-2024-gala.jpg";
+import gBlueRed from "../../assets/photos/seniors/dance-blue-red.jpg";
+import villageQr from "../../assets/qr/scarsdale-village.png";
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+const l = (p: string) => localizePath(p, locale);
+const schedule = locale === "zh" ? seniorClub.scheduleZh : seniorClub.schedule;
+
+const gallery = [
+  { src: gQipao, alt: t("senior.g1"), wide: true },
+  { src: gFans, alt: t("senior.g2") },
+  { src: gRedWall, alt: t("senior.g3") },
+  { src: gChoir, alt: t("senior.g4"), wide: true },
+  { src: gStairs, alt: t("senior.g5") },
+  { src: gPotluck, alt: t("senior.g6") },
+  { src: gHoliday, alt: t("senior.g7") },
+  { src: gQipao24, alt: t("senior.g8") },
+  { src: gBlueRed, alt: t("senior.g9") },
+];
+---
+<Base title={t("senior.metaTitle")} description={t("senior.metaDescription")} locale={locale}>
+  <section class="bg-cream">
+    <div class="container-site grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-red">{t("senior.eyebrow")}</p>
+        <h1 class="section-title mt-2">{t("senior.title")}</h1>
+        <div class="section-rule"></div>
+        <p class="mt-5 text-xl font-semibold">{schedule}</p>
+        <p class="prose-sca mt-4">{t("senior.intro")}</p>
+        <p class="mt-4 font-semibold">📍 {seniorClub.venue}, {seniorClub.address}</p>
+        <div class="mt-6 flex flex-wrap gap-3"><a href="#how-to-join" class="btn-red">{t("senior.howToJoin")}</a><a href={l("/contact/")} class="btn-outline">{t("senior.ask")}</a></div>
+      </div>
+      <Image src={hero} alt={t("senior.heroAlt")} class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={group} alt={t("senior.groupAlt")} class="aspect-[16/10] w-full rounded-2xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" />
+      <div>
+        <SectionHeading title={t("senior.aboutTitle")} />
+        <div class="prose-sca mt-6">
+          <p>{t("senior.about1", { fee: seniorClub.villageFee })}</p>
+          <p>{t("senior.about2")}</p>
+          <p>{t("senior.about3")}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-cream">
+    <div class="container-site">
+      <SectionHeading title={t("senior.lifeTitle")} intro={t("senior.lifeIntro")} />
+      <ul class="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" role="list">
+        {gallery.map((g) => (
+          <li class:list={["overflow-hidden rounded-xl shadow-card", { "col-span-2": g.wide }]}>
+            <Image src={g.src} alt={g.alt} class:list={["h-full w-full object-cover transition duration-500 hover:scale-[1.03]", g.wide ? "aspect-[2/1]" : "aspect-square"]} widths={[400, 800, 1200]} sizes={g.wide ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 320px, 50vw"} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="how-to-join" class="section scroll-mt-20 bg-white">
+    <div class="container-site grid gap-10 lg:grid-cols-[7fr_5fr] lg:items-center">
+      <div>
+        <SectionHeading title={t("senior.partnerTitle")} intro={t("senior.partnerIntro")} />
+        <ol class="mt-6 space-y-3 text-[15px]">
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">1</span><span>{t("senior.step1Before")}<a href={seniorClub.villageSignupUrl} class="font-semibold text-red underline" rel="noopener">{t("senior.step1Link")}</a>{t("senior.step1After")}</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">2</span><span>{t("senior.step2Before")}<strong>{t("senior.step2Strong")}</strong>{t("senior.step2After")}</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">3</span><span>{t("senior.step3", { fee: seniorClub.villageFee, venue: seniorClub.venue })}</span></li>
+        </ol>
+        <Image src={house} alt={t("senior.houseAlt")} class="mt-8 aspect-[3/2] w-full max-w-md rounded-xl object-cover shadow-card" widths={[400, 800]} sizes="400px" />
+      </div>
+      <figure class="flex flex-col items-center gap-4">
+        <Image src={villageQr} alt={t("senior.qrAlt")} class="w-64 rounded-xl bg-white p-3 shadow-card sm:w-80" width="320" height="320" />
+        <figcaption class="max-w-xs text-center text-sm text-muted">
+          <span class="block font-semibold text-ink">{t("senior.qrTitle")}</span>
+          <span class="mt-1 block">{t("senior.qrHint")}</span>
+          <a href={seniorClub.villageSignupUrl} class="btn-red mt-3 inline-flex px-5 py-2.5 text-sm" rel="noopener">{t("senior.qrButton")}</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <Faq page="senior-club" locale={locale} />
+</Base>

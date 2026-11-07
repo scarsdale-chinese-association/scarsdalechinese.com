@@ -1,0 +1,54 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../../layouts/Base.astro";
+import SectionHeading from "../../../components/SectionHeading.astro";
+import EventCard from "../../../components/EventCard.astro";
+import collage from "../../../assets/photos/events-collage.jpg";
+import { site } from "../../../lib/site";
+import { getLocale, localeStaticPaths, localizePath, useTranslations } from "../../../i18n/utils";
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+const l = (p: string) => localizePath(p, locale);
+
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const all = await getCollection("events");
+const upcoming = all.filter((e) => e.data.date >= today).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const past = all.filter((e) => e.data.date < today).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title={t("events.metaTitle")} description={t("events.metaDescription")} locale={locale}>
+  <section class="bg-cream">
+    <div class="container-site grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <h1 class="section-title">{t("events.title")}</h1>
+        <div class="section-rule"></div>
+        <p class="prose-sca mt-5">{t("events.intro")}</p>
+        <div class="mt-6 flex flex-wrap gap-3"><a href={l("/join/")} class="btn-red">{t("events.join")}</a><a href={`mailto:${site.email}`} class="btn-outline">{t("events.suggest")}</a></div>
+      </div>
+      <Image src={collage} alt={t("events.collageAlt")} class="aspect-square w-full rounded-2xl object-cover shadow-card" widths={[540, 1080]} sizes="(min-width: 1024px) 50vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site">
+      <SectionHeading title={t("events.upcoming")} />
+      {upcoming.length ? (
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{upcoming.map((e) => <EventCard event={e} large locale={locale} />)}</div>
+      ) : (
+        <div class="mt-8 rounded-xl border border-dashed border-line bg-cream/50 p-8 text-center">
+          <p class="text-lg font-semibold">{t("events.noneTitle")}</p>
+          <p class="mt-2 text-muted">{t("events.noneBefore")}<a href={l("/join/")} class="font-semibold text-red underline">{t("events.noneLink")}</a>{t("events.noneAfter")}</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section bg-cream">
+    <div class="container-site">
+      <SectionHeading title={t("events.past")} />
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{past.map((e) => <EventCard event={e} locale={locale} />)}</div>
+    </div>
+  </section>
+</Base>

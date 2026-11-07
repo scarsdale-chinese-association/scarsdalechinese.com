@@ -1,0 +1,45 @@
+---
+import Base from "../../layouts/Base.astro";
+import ZelleBlock from "../../components/ZelleBlock.astro";
+import { site } from "../../lib/site";
+import { getLocale, localeStaticPaths, localizePath, useTranslations } from "../../i18n/utils";
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+const l = (p: string) => localizePath(p, locale);
+---
+<Base title={t("thanks.metaTitle")} description={t("thanks.metaDescription")} noindex locale={locale}>
+  <section class="section bg-cream">
+    <div class="container-site max-w-2xl">
+      <div class="rounded-2xl bg-white p-8 shadow-card ring-1 ring-line/60">
+        <p class="text-5xl" aria-hidden="true">🧧</p>
+        <h1 class="mt-4 text-3xl font-bold text-red">{t("thanks.title")}</h1>
+        <p class="prose-sca mt-3" data-msg="default">{t("thanks.default")}</p>
+        <div class="hidden" data-msg="membership">
+          <p class="prose-sca">{t("thanks.membership")}<span data-only="zelle">{t("thanks.membershipZelle")}</span><span data-only="stripe">{t("thanks.membershipStripe")}</span></p>
+          <div class="mt-6" data-only="zelle"><ZelleBlock locale={locale} /></div>
+        </div>
+        <div class="hidden" data-msg="rsvp">
+          <p class="prose-sca">{t("thanks.rsvpBefore")}<strong data-event data-fallback={t("thanks.rsvpFallback")}></strong>{t("thanks.rsvpAfter")}</p>
+          <a href={l("/events/")} class="btn-outline mt-4">{t("thanks.backEvents")}</a>
+        </div>
+        <div class="hidden" data-msg="sponsor">
+          <p class="prose-sca">{t("thanks.sponsor")}<span data-only="zelle">{t("thanks.sponsorZelle")}</span><span data-only="invoice">{t("thanks.sponsorInvoice")}</span><span data-only="stripe">{t("thanks.sponsorStripe")}</span></p>
+          <div class="mt-6" data-only="zelle"><ZelleBlock locale={locale} amount={t("zelle.chosenAmount")} note={t("zelle.sponsorNoteShort")} /></div>
+        </div>
+        <p class="mt-6 text-sm text-muted">{t("thanks.questionsBefore")}<a href={`mailto:${site.email}`} class="font-semibold text-red underline">{site.email}</a>{t("thanks.questionsAfter")}</p>
+        <a href={l("/")} class="btn-red mt-6">{t("thanks.home")}</a>
+      </div>
+    </div>
+  </section>
+  <script>
+    const p = new URLSearchParams(location.search);
+    const form = p.get("form") ?? "default";
+    const method = p.get("method") ?? "";
+    document.querySelectorAll<HTMLElement>("[data-msg]").forEach((el) => el.classList.toggle("hidden", el.dataset.msg !== (document.querySelector(`[data-msg="${form}"]`) ? form : "default")));
+    document.querySelectorAll<HTMLElement>("[data-only]").forEach((el) => el.classList.toggle("hidden", el.dataset.only !== method));
+    const ev = document.querySelector<HTMLElement>("[data-event]");
+    if (ev) ev.textContent = p.get("event") ?? ev.dataset.fallback ?? "";
+  </script>
+</Base>

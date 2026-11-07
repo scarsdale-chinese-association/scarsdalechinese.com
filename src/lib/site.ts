@@ -1,9 +1,11 @@
 /**
  * Site-wide constants. Edit here, never in individual pages.
  * Values prefixed PUBLIC_ can be overridden with environment variables at build time.
+ * Facts that read differently in Chinese have a `…Zh` twin here; all other Chinese text is in src/i18n/ui.ts.
  */
 export const site = {
   name: "Scarsdale Chinese Association",
+  nameZh: "斯卡斯代尔华人协会",
   shortName: "SCA",
   url: "https://scarsdalechinese.com",
   description:
@@ -25,6 +27,7 @@ export const membership = {
   /** Annual family membership fee in US dollars. */
   price: 40,
   priceLabel: "$40 per family, per year",
+  priceLabelZh: "每户每年 $40",
   /** Stripe Payment Link for the annual family membership. Set PUBLIC_STRIPE_MEMBERSHIP_LINK at build time. */
   stripeLink: import.meta.env.PUBLIC_STRIPE_MEMBERSHIP_LINK ?? "",
   /** Stripe Payment Link for sponsor donations. Set PUBLIC_STRIPE_DONATE_LINK at build time. */
@@ -41,17 +44,19 @@ export const membership = {
  */
 export const formEndpoint: string = import.meta.env.PUBLIC_FORM_ENDPOINT ?? "";
 
+/** Header and footer navigation. `label` is English, `labelZh` is shown on /zh/ pages. */
 export const nav = [
-  { label: "Events", href: "/events/" },
-  { label: "Sponsors", href: "/sponsors/" },
-  { label: "Senior Club", href: "/senior-club/" },
-  { label: "Contact", href: "/contact/" },
+  { label: "Events", labelZh: "活动", href: "/events/" },
+  { label: "Sponsors", labelZh: "赞助商", href: "/sponsors/" },
+  { label: "Senior Club", labelZh: "老年俱乐部", href: "/senior-club/" },
+  { label: "Contact", labelZh: "联系我们", href: "/contact/" },
 ];
 
 export const seniorClub = {
   venue: "Girl Scout House",
   address: "37 Wayside Lane, Scarsdale, NY 10583",
   schedule: "Every Tuesday, 9:30–11:30 AM (September–June)",
+  scheduleZh: "每周二上午 9:30–11:30（9 月至次年 6 月）",
   villageFee: 15,
   villageUrl: "https://www.scarsdale.gov",
   /** Same destination as the printed QR code: create a Village of Scarsdale (CivicPlus) account. */

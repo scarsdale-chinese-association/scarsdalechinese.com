@@ -1,0 +1,117 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+import Hero from "../../components/Hero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import EventCard from "../../components/EventCard.astro";
+import MembershipForm from "../../components/MembershipForm.astro";
+import ContactForm from "../../components/ContactForm.astro";
+import BoardGrid from "../../components/BoardGrid.astro";
+import SponsorGrid from "../../components/SponsorGrid.astro";
+import FormScript from "../../components/FormScript.astro";
+import { site, membership } from "../../lib/site";
+import { getLocale, localeStaticPaths, localizePath, useTranslations } from "../../i18n/utils";
+import springStage from "../../assets/photos/stage-dance.jpg";
+import lionDance from "../../assets/photos/lion-dance.jpg";
+import membersTable from "../../assets/photos/members-table.jpg";
+import choir from "../../assets/photos/seniors/choir-sca-gala.jpg";
+
+export function getStaticPaths() { return localeStaticPaths(); }
+const locale = getLocale(Astro.params);
+const t = useTranslations(locale);
+const l = (p: string) => localizePath(p, locale);
+const priceLabel = locale === "zh" ? membership.priceLabelZh : membership.priceLabel;
+
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const all = (await getCollection("events")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+const upcoming = all.filter((e) => e.data.date >= today).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const showcase = upcoming.length ? upcoming.slice(0, 3) : all.slice(0, 3);
+---
+<Base title={locale === "zh" ? site.nameZh : site.name} locale={locale}>
+  <Hero locale={locale} />
+
+  <section class="section bg-white">
+    <div class="container-site">
+      <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <SectionHeading title={upcoming.length ? t("home.upcoming") : t("home.recent")} intro={upcoming.length ? t("home.upcomingIntro") : t("home.recentIntro")} />
+        <a href={l("/events/")} class="btn-outline shrink-0">{t("home.allEvents")}</a>
+      </div>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {showcase.map((e) => <EventCard event={e} locale={locale} />)}
+      </div>
+    </div>
+  </section>
+
+  <section id="join" class="section scroll-mt-20 bg-cream">
+    <div class="container-site grid gap-12 lg:grid-cols-[5fr_7fr] lg:items-start">
+      <div>
+        <SectionHeading title={t("home.joinTitle")} intro={t("home.joinIntro", { price: priceLabel })} />
+        <ul class="mt-6 space-y-2 text-[15px] text-ink/85">
+          <li class="flex gap-2"><span class="text-red">✓</span> {t("home.benefit1")}</li>
+          <li class="flex gap-2"><span class="text-red">✓</span> {t("home.benefit2")}</li>
+          <li class="flex gap-2"><span class="text-red">✓</span> {t("home.benefit3")}</li>
+          <li class="flex gap-2"><span class="text-red">✓</span> {t("home.benefit4")}</li>
+        </ul>
+        <Image src={springStage} alt={t("home.stageAlt")} class="mt-8 hidden aspect-[4/3] w-full rounded-xl object-cover shadow-card lg:block" widths={[480, 960]} sizes="(min-width: 1024px) 40vw, 100vw" />
+      </div>
+      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8">
+        <MembershipForm compact locale={locale} />
+        <p class="mt-4 text-xs text-muted">{t("home.questionsBefore")}<a href={`${l("/join/")}#faq`} class="underline hover:text-red">{t("home.questionsFaq")}</a>{t("home.questionsMiddle")}<a href={`mailto:${site.email}`} class="underline hover:text-red">{site.email}</a>{t("home.questionsAfter")}</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="section scroll-mt-20 bg-white">
+    <div class="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div class="grid grid-cols-2 gap-3">
+        <Image src={lionDance} alt={t("home.lionAlt")} class="col-span-2 aspect-[16/9] w-full rounded-xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" />
+        <Image src={membersTable} alt={t("home.tableAlt")} class="aspect-square w-full rounded-xl object-cover shadow-card" widths={[320, 640]} sizes="25vw" />
+        <Image src={choir} alt={t("home.choirAlt")} class="aspect-square w-full rounded-xl object-cover shadow-card" widths={[320, 640]} sizes="25vw" />
+      </div>
+      <div>
+        <SectionHeading title={t("home.aboutTitle")} />
+        <div class="prose-sca mt-6">
+          <p>{t("home.about1")}</p>
+          <p>{t("home.about2")}</p>
+          <p lang={locale === "en" ? "zh-CN" : undefined}>{t("home.about3")}</p>
+        </div>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={l("/join/")} class="btn-red">{t("home.aboutJoin")}</a>
+          <a href={l("/senior-club/")} class="btn-outline">{t("home.aboutSenior")}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-cream">
+    <div class="container-site">
+      <SectionHeading title={t("home.sponsorsTitle")} intro={t("home.sponsorsIntro")} align="center" />
+      <div class="mx-auto mt-10 max-w-4xl"><SponsorGrid tier="top" /></div>
+      <div class="mt-10 text-center"><a href={l("/sponsors/")} class="btn-red">{t("home.sponsorsCta")}</a></div>
+    </div>
+  </section>
+
+  <section id="board" class="section scroll-mt-20 bg-white">
+    <div class="container-site">
+      <SectionHeading title={t("home.boardTitle")} intro={t("home.boardIntro")} />
+      <div class="mt-10"><BoardGrid locale={locale} /></div>
+    </div>
+  </section>
+
+  <section id="contact" class="section scroll-mt-20 bg-cream">
+    <div class="container-site grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <SectionHeading title={t("contact.title")} intro={t("home.contactIntro")} />
+        <ul class="mt-6 space-y-2 text-[15px]">
+          <li>✉️ <a href={`mailto:${site.email}`} class="font-semibold hover:text-red">{site.email}</a></li>
+          <li>☎️ <a href={site.phoneHref} class="font-semibold hover:text-red">{site.phone}</a></li>
+          <li>📮 {locale === "zh" ? site.addressZh : site.address}</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8"><ContactForm locale={locale} /></div>
+    </div>
+  </section>
+
+  <FormScript locale={locale} />
+</Base>

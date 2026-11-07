@@ -1,7 +1,11 @@
 # Notes for AI agents and contributors
 
 - Astro 7 static site, Tailwind v4 (tokens in `src/styles/global.css` under `@theme`), content collections in `src/content.config.ts`.
-- Site-wide facts (email, phone, address, membership price, Zelle details, nav) live in `src/lib/site.ts`. Change them there only.
+- Site-wide facts (email, phone, address, membership price, Zelle details, nav) live in `src/lib/site.ts`. Change them there only. Facts that read differently in Chinese have a `…Zh` twin next to them (`nameZh`, `addressZh`, `priceLabelZh`, `scheduleZh`, nav `labelZh`).
+- Two languages, one set of pages. Pages live once in `src/pages/[...locale]/` and are built twice: English at `/…` and Simplified Chinese at `/zh/…`. Each page reads `locale` from the route (`getLocale(Astro.params)`), passes it to every component, and takes all text from `t("key")`. Links between pages go through `localizePath(href, locale)`.
+- Every user-visible string goes in the dictionary `src/i18n/ui.ts`, in **both** `en` and `zh`, never inline in a page or component. TypeScript fails the build if a key is missing from `zh`. Sentences that wrap a link are split into `…Before` / link text / `…After` keys. Keep proper nouns (Scarsdale, Girl Scout House, Stripe, Zelle, WeChat, CivicPlus) in English in the Chinese text.
+- Chinese content: events get a twin file in `src/content/events-zh/<same-slug>.md` (title, summary, optional time/location/address, Chinese body); without one the `/zh/` page falls back to `titleZh` and the English text. FAQ entries take `questionZh` / `answerZh` in `faq.json`. Board roles are translated through `board.role.<Role>` keys in the dictionary; `nameZh` in `board.json` is shown on `/zh/` when set.
+- `src/pages/404.astro` is the one page outside the locale folder: Hostinger serves it for any missing URL, so it is bilingual.
 - Forms: every `<form data-sca-form="…">` is handled by `src/components/FormScript.astro`, which posts JSON to the Apps Script endpoint. Keep the honeypot `_gotcha` field.
 - Images go in `src/assets/` and are rendered with `<Image>` from `astro:assets` so they are resized and converted at build time. Only put files in `public/` when they must keep their exact bytes (favicon, .htaccess, board headshots).
 - Deploy: push to `main`; `.github/workflows/deploy.yml` builds and force-pushes `dist/` to the `deploy` branch, which Hostinger publishes. Never edit the `deploy` branch by hand.

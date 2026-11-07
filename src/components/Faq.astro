@@ -1,12 +1,21 @@
 ---
 import { getCollection } from "astro:content";
-interface Props { page: "membership" | "sponsors" | "senior-club"; title?: string; }
-const { page, title = "FAQ" } = Astro.props;
-const items = (await getCollection("faq", (e) => e.data.page === page)).sort((a, b) => a.data.order - b.data.order);
+import { useTranslations, type Locale } from "../i18n/utils";
+interface Props { page: "membership" | "sponsors" | "senior-club"; title?: string; locale?: Locale; }
+const { page, locale = "en" } = Astro.props;
+const t = useTranslations(locale);
+const title = Astro.props.title ?? t("faq.title");
+const entries = (await getCollection("faq", (e) => e.data.page === page)).sort((a, b) => a.data.order - b.data.order);
+// On /zh/ pages use the Chinese twin when present; entries written in Chinese only have no twin and show as-is.
+const items = entries.map((e) => ({
+  question: locale === "zh" ? e.data.questionZh ?? e.data.question : e.data.question,
+  answer: locale === "zh" ? e.data.answerZh ?? e.data.answer : e.data.answer,
+}));
 const faqLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: items.map((i) => ({ "@type": "Question", name: i.data.question, acceptedAnswer: { "@type": "Answer", text: i.data.answer } })),
+  inLanguage: locale === "zh" ? "zh-CN" : "en-US",
+  mainEntity: items.map((i) => ({ "@type": "Question", name: i.question, acceptedAnswer: { "@type": "Answer", text: i.answer } })),
 };
 ---
 <script type="application/ld+json" set:html={JSON.stringify(faqLd)} />
@@ -18,10 +27,10 @@ const faqLd = {
       {items.map((item, i) => (
         <details class="group py-4" open={i === 0}>
           <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-left text-base font-semibold text-ink transition group-open:text-red sm:text-lg">
-            <span>{item.data.question}</span>
+            <span>{item.question}</span>
             <span class="mt-1 shrink-0 text-red" aria-hidden="true"><svg class="h-5 w-5 transition group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
           </summary>
-          <p class="prose-sca mt-3 max-w-4xl text-muted">{item.data.answer}</p>
+          <p class="prose-sca mt-3 max-w-4xl text-muted">{item.answer}</p>
         </details>
       ))}
     </div>

@@ -2,7 +2,8 @@
 @import "@fontsource-variable/quicksand";
 
 @theme {
-  --font-sans: "Quicksand Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+  /* Quicksand has no CJK glyphs; Chinese falls through to the system CJK fonts (no web font needed). */
+  --font-sans: "Quicksand Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", "Noto Sans CJK SC", ui-sans-serif, system-ui, sans-serif;
 
   --color-red: #c00000;
   --color-red-dark: #960000;
@@ -27,6 +28,11 @@
   body { @apply bg-white text-ink font-sans antialiased; }
   h1, h2, h3, h4 { @apply font-semibold tracking-tight; }
   ::selection { background: var(--color-gold); color: var(--color-ink); }
+  /* Chinese pages: no negative letter-spacing on headings (it crowds CJK glyphs), a little more line height,
+     and wrap long runs at character boundaries. */
+  :lang(zh) h1, :lang(zh) h2, :lang(zh) h3, :lang(zh) h4 { letter-spacing: 0; }
+  :lang(zh) h1 { line-height: 1.25; }
+  :lang(zh) body, html:lang(zh) { line-height: 1.7; word-break: break-word; overflow-wrap: anywhere; }
 }
 
 @layer components {
