@@ -118,8 +118,10 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 �
 
 **Analytics, Search Console, SEO (2026-11-06).** GA4 property 453645794 (stream G-B23GBN9ML9) is wired in via `PUBLIC_GA_ID`; chris@firstratetechcorp.com is a GA account Administrator and a Search Console Owner on the `sc-domain:scarsdalechinese.com` property. The site now ships Organization/NGO + WebSite JSON-LD on every page, FAQPage on Join/Sponsors/Senior Club, Event on event pages, a default Open Graph image, `noindex` on thank-you/404, explicit allow rules for AI crawlers in robots.txt, and `/llms.txt`. After cutover: submit `https://scarsdalechinese.com/sitemap-index.xml` in Search Console and fix the SPF record to include Google (`v=spf1 include:_spf.google.com ~all`) since mail is on Google Workspace.
 
+**Cutover done (2026-11-06, evening).** The WordPress sites (scarsdalechinese.com and its staging subdomain) were deleted in hPanel and the Astro site's domain was changed from new.scarsdalechinese.com to **scarsdalechinese.com**. The Git auto-deployment stayed attached; a manual Redeploy plus Clear cache was needed once after the rename. https://scarsdalechinese.com, www → apex, and the old WordPress URL redirects all verified. MX stayed on Google. The new.scarsdalechinese.com subdomain no longer exists.
+
 **Still to do (needs a human)**
 1. Collect 9 board headshots (square JPG) → `public/board/` and add `"photo"` in `src/content/data/board.json`.
 2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
-3. Review new.scarsdalechinese.com; when approved, switch the main domain: in hPanel, point the Git deployment at scarsdalechinese.com's `public_html` (or swap domains), keep a WordPress backup first.
+3. Senior Club photos from the member who is sending them (replace the collage in `src/assets/photos/senior-collage.jpg`).
 4. Optional phase 2: Stripe webhook → Sheet (see scripts/apps-script/README.md), Chinese/English toggle, Decap CMS.
