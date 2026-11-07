@@ -112,6 +112,8 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 Â
 
 **Forms backend: live.** Apps Script web app deployed (`PUBLIC_FORM_ENDPOINT` set in GitHub Variables). Verified end to end on 2026-11-06: a browser submission on new.scarsdalechinese.com/contact/ landed in the `contact` tab of the SCA Members sheet and redirected to the thank-you page; info@ received the notification. Two test rows ("Website test (Claude)", "Browser test (Claude)") are in the contact tab and can be deleted.
 
+**Member roster seeded from Stripe (2026-11-06).** 24 rows pasted into the `membership` tab of the private SCA Members sheet (ID column `STRIPE-IMPORT`): 21 active legacy $35/yr subscriptions, 1 canceled, 2 Stripe customers with no payment. Test customers and blank test subscriptions from Nov 2024 were excluded. One email has two active subscriptions (possible duplicate charge) and is flagged in the Notes column. Existing subscribers stay on the old $35 price until the board decides whether to migrate them to the $40 product. No member data is stored in this repo.
+
 **Still to do (needs a human)**
 1. Collect 9 board headshots (square JPG) â†’ `public/board/` and add `"photo"` in `src/content/data/board.json`.
 2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
