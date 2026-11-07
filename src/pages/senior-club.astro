@@ -4,9 +4,29 @@ import Base from "../layouts/Base.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Faq from "../components/Faq.astro";
 import { seniorClub } from "../lib/site";
-import collage from "../assets/photos/senior-collage.jpg";
-import seniors from "../assets/photos/banquet.jpg";
+import hero from "../assets/photos/seniors/fan-dance-blue.jpg";
+import group from "../assets/photos/seniors/club-group-fu.jpg";
 import house from "../assets/photos/girl-scout-house.jpg";
+import gQipao from "../assets/photos/seniors/qipao-show.jpg";
+import gFans from "../assets/photos/seniors/fan-dance-pink.jpg";
+import gRedWall from "../assets/photos/seniors/dance-red-wall.jpg";
+import gChoir from "../assets/photos/seniors/choir-sca-gala.jpg";
+import gStairs from "../assets/photos/seniors/dancers-stairs.jpg";
+import gPotluck from "../assets/photos/seniors/potluck.jpg";
+import gHoliday from "../assets/photos/seniors/holiday-celebration.jpg";
+import gQipao24 from "../assets/photos/seniors/qipao-2024-gala.jpg";
+import gBlueRed from "../assets/photos/seniors/dance-blue-red.jpg";
+const gallery = [
+  { src: gQipao, alt: "Senior Club members in velvet qipao on stage", wide: true },
+  { src: gFans, alt: "Fan dance rehearsal at the Girl Scout House" },
+  { src: gRedWall, alt: "Dance troupe performing in pink costumes" },
+  { src: gChoir, alt: "SCA Senior Club choir singing at the Spring Festival Gala", wide: true },
+  { src: gStairs, alt: "Dance troupe posing on the theater stairs" },
+  { src: gPotluck, alt: "Potluck lunch at a Tuesday gathering" },
+  { src: gHoliday, alt: "Holiday and birthday celebration at the Girl Scout House" },
+  { src: gQipao24, alt: "Qipao performance at the 2024 Spring Festival party" },
+  { src: gBlueRed, alt: "Dance practice in blue and red costumes" },
+];
 import villageQr from "../assets/qr/scarsdale-village.png";
 ---
 <Base title="SCA Senior Club" description="The SCA Senior Club meets every Tuesday morning at the Girl Scout House in Scarsdale. Learn how Chinese-speaking seniors can join.">
@@ -21,13 +41,13 @@ import villageQr from "../assets/qr/scarsdale-village.png";
         <p class="mt-4 font-semibold">📍 {seniorClub.venue}, {seniorClub.address}</p>
         <div class="mt-6 flex flex-wrap gap-3"><a href="#how-to-join" class="btn-red">How to join</a><a href="/contact/" class="btn-outline">Ask a question</a></div>
       </div>
-      <Image src={collage} alt="Members of the SCA Senior Club" class="aspect-square w-full rounded-2xl object-cover shadow-card" widths={[540, 1080]} sizes="(min-width: 1024px) 50vw, 100vw" />
+      <Image src={hero} alt="Senior Club dance troupe performing a fan dance with round silk fans" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" />
     </div>
   </section>
 
   <section class="section">
     <div class="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
-      <Image src={seniors} alt="SCA members gathered at a community banquet" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 50vw, 100vw" />
+      <Image src={group} alt="Members of the SCA Senior Club gathered under a 福 decoration" class="aspect-[16/10] w-full rounded-2xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" />
       <div>
         <SectionHeading title="About the Senior Club" />
         <div class="prose-sca mt-6">
@@ -39,7 +59,20 @@ import villageQr from "../assets/qr/scarsdale-village.png";
     </div>
   </section>
 
-  <section id="how-to-join" class="section scroll-mt-20 bg-cream">
+  <section class="section bg-cream">
+    <div class="container-site">
+      <SectionHeading title="Club life" intro="Dance troupe, choir, qipao shows, potlucks and holiday parties. Here is a glimpse of what our members get up to." />
+      <ul class="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4" role="list">
+        {gallery.map((g) => (
+          <li class:list={["overflow-hidden rounded-xl shadow-card", { "col-span-2": g.wide }]}>
+            <Image src={g.src} alt={g.alt} class:list={["h-full w-full object-cover transition duration-500 hover:scale-[1.03]", g.wide ? "aspect-[2/1]" : "aspect-square"]} widths={[400, 800, 1200]} sizes={g.wide ? "(min-width: 1024px) 640px, 100vw" : "(min-width: 1024px) 320px, 50vw"} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section id="how-to-join" class="section scroll-mt-20 bg-white">
     <div class="container-site grid gap-10 lg:grid-cols-[7fr_5fr] lg:items-center">
       <div>
         <SectionHeading title="In partnership with Scarsdale Village" intro="Scarsdale seniors join the Senior Club through the Village of Scarsdale website." />

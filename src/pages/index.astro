@@ -14,7 +14,7 @@ import { site, membership } from "../lib/site";
 import springStage from "../assets/photos/stage-dance.jpg";
 import lionDance from "../assets/photos/lion-dance.jpg";
 import membersTable from "../assets/photos/members-table.jpg";
-import houseGroup from "../assets/photos/house-group.jpg";
+import choir from "../assets/photos/seniors/choir-sca-gala.jpg";
 
 const today = new Date(); today.setHours(0, 0, 0, 0);
 const all = (await getCollection("events")).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
@@ -60,7 +60,7 @@ const showcase = upcoming.length ? upcoming.slice(0, 3) : all.slice(0, 3);
       <div class="grid grid-cols-2 gap-3">
         <Image src={lionDance} alt="Lion dance performance at an SCA celebration" class="col-span-2 aspect-[16/9] w-full rounded-xl object-cover shadow-card" widths={[640, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" />
         <Image src={membersTable} alt="SCA members gathered around a table" class="aspect-square w-full rounded-xl object-cover shadow-card" widths={[320, 640]} sizes="25vw" />
-        <Image src={houseGroup} alt="SCA members at a house gathering" class="aspect-square w-full rounded-xl object-cover shadow-card" widths={[320, 640]} sizes="25vw" />
+        <Image src={choir} alt="The SCA choir performing in front of the SCA letters at the Spring Festival Gala" class="aspect-square w-full rounded-xl object-cover shadow-card" widths={[320, 640]} sizes="25vw" />
       </div>
       <div>
         <SectionHeading title="About SCA" />
