@@ -3,6 +3,8 @@
 Website of the Scarsdale Chinese Association (SCA), built with [Astro](https://astro.build) and Tailwind CSS.
 Static HTML, no CMS, no database: content lives in this repo as Markdown and JSON.
 
+New to managing this site? Start with [`docs/HANDOFF.md`](docs/HANDOFF.md).
+
 ## Editing content
 
 | What | Where |
