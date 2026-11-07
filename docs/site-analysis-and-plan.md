@@ -114,6 +114,8 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 Â
 
 **Member roster seeded from Stripe (2026-11-06).** 24 rows pasted into the `membership` tab of the private SCA Members sheet (ID column `STRIPE-IMPORT`): 21 active legacy $35/yr subscriptions, 1 canceled, 2 Stripe customers with no payment. Test customers and blank test subscriptions from Nov 2024 were excluded. One email has two active subscriptions (possible duplicate charge) and is flagged in the Notes column. Existing subscribers stay on the old $35 price until the board decides whether to migrate them to the $40 product. No member data is stored in this repo.
 
+**RSVP (2026-11-06).** Upcoming events without an external `rsvpUrl` show an "I'll be there" form (name, email, phone, party size, note). Submissions go to the `rsvp` tab of the SCA Members sheet (one row per RSVP, with the event slug for filtering) and email info@. Apps Script is at deployment version 2; the web-app URL is unchanged. Verified end to end with a temporary test event; one test row remains in the rsvp tab and can be deleted.
+
 **Still to do (needs a human)**
 1. Collect 9 board headshots (square JPG) â†’ `public/board/` and add `"photo"` in `src/content/data/board.json`.
 2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
