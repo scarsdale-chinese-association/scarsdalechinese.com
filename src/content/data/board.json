@@ -1,11 +1,11 @@
 [
-  { "id": "ke-wang", "name": "Ke Wang", "role": "Chair", "order": 1 },
-  { "id": "xiaoyue-li", "name": "Xiaoyue (Cynthia) Li", "role": "Chair", "avatar": "female", "order": 2 },
-  { "id": "fengyun-wu", "name": "Fengyun Wu", "role": "Treasurer", "order": 3 },
-  { "id": "xun-deng", "name": "Xun Deng", "role": "Board Member", "order": 4 },
-  { "id": "yanhui-wang", "name": "Yanhui Wang", "role": "Board Member", "order": 5 },
-  { "id": "jing-lei", "name": "Jing Lei", "role": "Board Member", "order": 6 },
-  { "id": "chao-huang", "name": "Chao Huang", "role": "Board Member", "order": 7 },
-  { "id": "shengping-zheng", "name": "Shengping Zheng", "role": "Board Member", "order": 8 },
-  { "id": "houle-cao", "name": "Houle Cao", "role": "Board Member", "order": 9 }
+  {"id": "ke-wang", "name": "Ke Wang", "role": "Chair", "order": 1, "avatar": "male"},
+  {"id": "xiaoyue-li", "name": "Xiaoyue (Cynthia) Li", "role": "Chair", "avatar": "female", "order": 2},
+  {"id": "fengyun-wu", "name": "Fengyun Wu", "role": "Treasurer", "order": 3, "avatar": "female"},
+  {"id": "xun-deng", "name": "Xun Deng", "role": "Board Member", "order": 4, "avatar": "female"},
+  {"id": "yanhui-wang", "name": "Yanhui Wang", "role": "Board Member", "order": 5, "avatar": "female"},
+  {"id": "jing-lei", "name": "Jing Lei", "role": "Board Member", "order": 6, "avatar": "female"},
+  {"id": "chao-huang", "name": "Chao Huang", "role": "Board Member", "order": 7, "avatar": "male"},
+  {"id": "shengping-zheng", "name": "Shengping Zheng", "role": "Board Member", "order": 8, "avatar": "male"},
+  {"id": "houle-cao", "name": "Houle Cao", "role": "Board Member", "order": 9, "avatar": "male"}
 ]
