@@ -53,5 +53,7 @@ export const seniorClub = {
   address: "37 Wayside Lane, Scarsdale, NY 10583",
   schedule: "Every Tuesday, 9:30–11:30 AM (September–June)",
   villageFee: 15,
-  villageUrl: "https://www.scarsdale.com",
+  villageUrl: "https://www.scarsdale.gov",
+  /** Same destination as the printed QR code: create a Village of Scarsdale (CivicPlus) account. */
+  villageSignupUrl: "https://www.scarsdale.gov/MyAccount/ProfileCreate",
 };

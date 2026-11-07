@@ -77,13 +77,20 @@ import villageQr from "../assets/qr/scarsdale-village.png";
       <div>
         <SectionHeading title="In partnership with Scarsdale Village" intro="Scarsdale seniors join the Senior Club through the Village of Scarsdale website." />
         <ol class="mt-6 space-y-3 text-[15px]">
-          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">1</span><span>Scan the QR code or visit <a href={seniorClub.villageUrl} class="font-semibold text-red underline" rel="noopener">scarsdale.com</a> to create a CivicPlus account.</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">1</span><span>Scan the QR code or <a href={seniorClub.villageSignupUrl} class="font-semibold text-red underline" rel="noopener">create an account on scarsdale.com</a> (the Village uses CivicPlus).</span></li>
           <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">2</span><span>Select <strong>Seniors → Senior Club Membership</strong> and log in.</span></li>
           <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">3</span><span>Pay the ${seniorClub.villageFee} annual fee, then join us on Tuesday morning at the {seniorClub.venue}.</span></li>
         </ol>
         <Image src={house} alt="The Girl Scout House in Scarsdale" class="mt-8 aspect-[3/2] w-full max-w-md rounded-xl object-cover shadow-card" widths={[400, 800]} sizes="400px" />
       </div>
-      <div class="flex justify-center"><Image src={villageQr} alt="QR code linking to the Village of Scarsdale account creation page" class="w-64 rounded-xl bg-white p-3 shadow-card sm:w-80" width="320" height="320" /></div>
+      <figure class="flex flex-col items-center gap-4">
+        <Image src={villageQr} alt="QR code linking to the Village of Scarsdale account creation page" class="w-64 rounded-xl bg-white p-3 shadow-card sm:w-80" width="320" height="320" />
+        <figcaption class="max-w-xs text-center text-sm text-muted">
+          <span class="block font-semibold text-ink">Village of Scarsdale account sign-up</span>
+          <span class="mt-1 block">Scan with your phone's camera, or if you're already on your phone,</span>
+          <a href={seniorClub.villageSignupUrl} class="btn-red mt-3 inline-flex px-5 py-2.5 text-sm" rel="noopener">Create your Village account</a>
+        </figcaption>
+      </figure>
     </div>
   </section>
 
