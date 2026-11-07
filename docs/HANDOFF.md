@@ -65,7 +65,7 @@ to do with the site so you are never fighting with your personal logins.
 | Payments | Stripe dashboard (SCA account) | Product "SCA Family Membership" $40/yr recurring; donation link "customer chooses amount". Legacy members are still on a $35/yr price. |
 | Zelle | scarsdalechinese@yahoo.com, recipient "Scarsdale Chinese Association, Inc." | Shown on the Join and Sponsors pages. Change it in `src/lib/site.ts`. |
 | Analytics | Google Analytics 4 (property 453645794) and Search Console (`sc-domain:scarsdalechinese.com`) | Already wired in. Add yourself as a user via the SCA Google account if you want dashboards. |
-| Design file | Figma, file `kwew0QXFaDx4rCYSWhaP9F`, pages "02 · Astro site · Desktop" and "03 · Astro site · Mobile" | Optional. Captures of the real pages; refresh them if you redesign a page. |
+| Design file | Figma, file `kwew0QXFaDx4rCYSWhaP9F`, page "Website · Nov 2026" (sections 01 Desktop, 02 Mobile) | Optional. Captures of the real pages; refresh them if you redesign a page. |
 
 Site-wide facts (phone, P.O. Box, email, membership price, Zelle details, Senior Club schedule, nav) are
 all in one file: `src/lib/site.ts`. Change them there and nowhere else.
