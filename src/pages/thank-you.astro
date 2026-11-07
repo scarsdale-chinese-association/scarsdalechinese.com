@@ -14,6 +14,10 @@ import { site } from "../lib/site";
           <p class="prose-sca">Your membership form is in. <span data-only="zelle">Please complete your payment by Zelle below. Your membership is active once the treasurer confirms it, and a board member will add you to the members' WeChat group.</span><span data-only="stripe">If you completed payment on Stripe, you're all set: a receipt is on its way and a board member will add you to the members' WeChat group.</span></p>
           <div class="mt-6" data-only="zelle"><ZelleBlock /></div>
         </div>
+        <div class="hidden" data-msg="rsvp">
+          <p class="prose-sca">You're on the list for <strong data-event></strong>. The organizers have your RSVP, and we'll email you if anything about the event changes. See you there!</p>
+          <a href="/events/" class="btn-outline mt-4">Back to events</a>
+        </div>
         <div class="hidden" data-msg="sponsor">
           <p class="prose-sca">Thank you for supporting SCA. <span data-only="zelle">Please send your sponsorship by Zelle below and we'll email a tax receipt.</span><span data-only="invoice">A board member will contact you shortly to arrange details.</span><span data-only="stripe">If you completed payment on Stripe, a receipt is on its way.</span></p>
           <div class="mt-6" data-only="zelle"><ZelleBlock amount="your chosen amount" note="Put your company name in the memo." /></div>
@@ -29,5 +33,7 @@ import { site } from "../lib/site";
     const method = p.get("method") ?? "";
     document.querySelectorAll<HTMLElement>("[data-msg]").forEach((el) => el.classList.toggle("hidden", el.dataset.msg !== (document.querySelector(`[data-msg="${form}"]`) ? form : "default")));
     document.querySelectorAll<HTMLElement>("[data-only]").forEach((el) => el.classList.toggle("hidden", el.dataset.only !== method));
+    const ev = document.querySelector<HTMLElement>("[data-event]");
+    if (ev) ev.textContent = p.get("event") ?? "the event";
   </script>
 </Base>

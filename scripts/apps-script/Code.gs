@@ -16,6 +16,7 @@ var TABS = {
   membership: ['Submitted', 'ID', 'First name', 'Last name', 'Email', 'Phone', 'WeChat', 'Family members', 'Street', 'City', 'State', 'ZIP', 'Payment method', 'Payment status', 'Paid on', 'Stripe customer', 'Email consent', 'Notes'],
   sponsor: ['Submitted', 'ID', 'Company', 'Contact name', 'Email', 'Phone', 'Amount', 'Payment method', 'Payment status', 'Message', 'Notes'],
   contact: ['Submitted', 'ID', 'Name', 'Email', 'Message', 'Page', 'Replied'],
+  rsvp: ['Submitted', 'ID', 'Event', 'Event date', 'Event slug', 'Name', 'Email', 'Phone', 'Guests', 'Note', 'Checked in'],
 };
 
 /** One-time: creates the tabs with headers. Run from the editor after setting SHEET_ID. */
@@ -62,6 +63,8 @@ function doPost(e) {
       var amount = body.amount === 'other' ? body.amountOther : body.amount;
       row = [now, id, body.company, body.name, body.email, body.phone, amount, body.paymentMethod,
         body.paymentMethod === 'invoice' ? 'Contact requested' : body.paymentMethod === 'zelle' ? 'Pending Zelle' : 'Pending Stripe', body.message, ''];
+    } else if (form === 'rsvp') {
+      row = [now, id, body.eventTitle, body.eventDate, body.eventSlug, body.name, body.email, body.phone, Number(body.guests || 1), body.note, ''];
     } else {
       row = [now, id, body.name, body.email, body.message, body.page, ''];
     }
@@ -90,6 +93,10 @@ function notify_(form, id, b) {
     subject = '[SCA] Sponsor inquiry: ' + (b.company || b.name) + ' — $' + (b.amount === 'other' ? b.amountOther : b.amount);
     text = 'New sponsor form.\n\nID: ' + id + '\nCompany: ' + (b.company || '') + '\nContact: ' + b.name + '\nEmail: ' + b.email + '\nPhone: ' + (b.phone || '') +
       '\nAmount: ' + (b.amount === 'other' ? b.amountOther : b.amount) + '\nPayment: ' + b.paymentMethod + '\n\nMessage:\n' + (b.message || '');
+  } else if (form === 'rsvp') {
+    subject = '[SCA] RSVP: ' + b.name + ' (' + (b.guests || 1) + ') — ' + b.eventTitle;
+    text = 'New RSVP.\n\nEvent: ' + b.eventTitle + ' (' + (b.eventDate || '') + ')\nName: ' + b.name + '\nEmail: ' + b.email + '\nPhone: ' + (b.phone || '') +
+      '\nGuests (including themselves): ' + (b.guests || 1) + '\n\nNote:\n' + (b.note || '') + '\n\nAll RSVPs for this event: filter the rsvp tab by Event slug = ' + (b.eventSlug || '');
   } else {
     subject = '[SCA] Website message from ' + b.name;
     text = 'From: ' + b.name + ' <' + b.email + '>\nPage: ' + (b.page || '') + '\n\n' + b.message;

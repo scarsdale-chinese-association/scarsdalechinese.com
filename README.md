@@ -7,7 +7,7 @@ Static HTML, no CMS, no database: content lives in this repo as Markdown and JSO
 
 | What | Where |
 |---|---|
-| Events | `src/content/events/*.md` (one file per event; upcoming vs past is computed from `date`) |
+| Events | `src/content/events/*.md` (one file per event; upcoming vs past is computed from `date`). Upcoming events get an RSVP form automatically unless `rsvpUrl` points to an external ticket page. RSVPs land in the `rsvp` tab of the Sheet. |
 | Board members | `src/content/data/board.json` (add `"photo": "/board/<file>.jpg"` once headshots are in `public/board/`) |
 | Sponsors | `src/content/data/sponsors.json` + image in `src/assets/sponsors/` |
 | FAQ | `src/content/data/faq.json` |
