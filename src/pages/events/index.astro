@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import EventCard from "../../components/EventCard.astro";
+import collage from "../../assets/photos/events-collage.jpg";
+import { site } from "../../lib/site";
+
+const today = new Date(); today.setHours(0, 0, 0, 0);
+const all = await getCollection("events");
+const upcoming = all.filter((e) => e.data.date >= today).sort((a, b) => a.data.date.getTime() - b.data.date.getTime());
+const past = all.filter((e) => e.data.date < today).sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+<Base title="SCA Events" description="Upcoming and past events of the Scarsdale Chinese Association: Spring Festival Gala, concerts, festivals, coffee mornings and seminars.">
+  <section class="bg-cream">
+    <div class="container-site grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <h1 class="section-title">SCA events</h1>
+        <div class="section-rule"></div>
+        <p class="prose-sca mt-5">The association holds lectures and seminars, a large-scale Spring Festival Gala, youth concerts, seasonal festivals and coffee mornings every year to serve the community and promote Chinese culture. Members hear about events first by email and in the SCA WeChat group.</p>
+        <div class="mt-6 flex flex-wrap gap-3"><a href="/join/" class="btn-red">Become a member</a><a href={`mailto:${site.email}`} class="btn-outline">Suggest an event</a></div>
+      </div>
+      <Image src={collage} alt="Collage of SCA events" class="aspect-square w-full rounded-2xl object-cover shadow-card" widths={[540, 1080]} sizes="(min-width: 1024px) 50vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site">
+      <SectionHeading title="Upcoming events" />
+      {upcoming.length ? (
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{upcoming.map((e) => <EventCard event={e} large />)}</div>
+      ) : (
+        <div class="mt-8 rounded-xl border border-dashed border-line bg-cream/50 p-8 text-center">
+          <p class="text-lg font-semibold">No events are scheduled right now.</p>
+          <p class="mt-2 text-muted">New events are announced to members by email and WeChat first. <a href="/join/" class="font-semibold text-red underline">Join SCA</a> to hear about the next one.</p>
+        </div>
+      )}
+    </div>
+  </section>
+
+  <section class="section bg-cream">
+    <div class="container-site">
+      <SectionHeading title="Past events" />
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">{past.map((e) => <EventCard event={e} />)}</div>
+    </div>
+  </section>
+</Base>

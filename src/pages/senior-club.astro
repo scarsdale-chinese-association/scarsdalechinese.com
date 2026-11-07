@@ -1,0 +1,58 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Faq from "../components/Faq.astro";
+import { seniorClub } from "../lib/site";
+import collage from "../assets/photos/seniors-table.jpg";
+import seniors from "../assets/photos/house-group.jpg";
+import house from "../assets/photos/girl-scout-house.jpg";
+import villageQr from "../assets/qr/scarsdale-village.png";
+---
+<Base title="SCA Senior Club" description="The SCA Senior Club meets every Tuesday morning at the Girl Scout House in Scarsdale. Learn how Chinese-speaking seniors can join.">
+  <section class="bg-cream">
+    <div class="container-site grid gap-10 py-16 lg:grid-cols-2 lg:items-center lg:py-20">
+      <div>
+        <p class="text-sm font-bold uppercase tracking-[0.2em] text-red">Weekly social events</p>
+        <h1 class="section-title mt-2">SCA Senior Club</h1>
+        <div class="section-rule"></div>
+        <p class="mt-5 text-xl font-semibold">{seniorClub.schedule}</p>
+        <p class="prose-sca mt-4">Welcome to the Senior Club of the Scarsdale Chinese Association: a vibrant, lively community where seniors come together to socialize, have fun, and make lasting friendships. Whether you enjoy singing, dancing, or simply spending time with others, our club offers a welcoming space for ages 65 and up.</p>
+        <p class="mt-4 font-semibold">📍 {seniorClub.venue}, {seniorClub.address}</p>
+        <div class="mt-6 flex flex-wrap gap-3"><a href="#how-to-join" class="btn-red">How to join</a><a href="/contact/" class="btn-outline">Ask a question</a></div>
+      </div>
+      <Image src={collage} alt="Members of the SCA Senior Club" class="aspect-square w-full rounded-2xl object-cover shadow-card" widths={[540, 1080]} sizes="(min-width: 1024px) 50vw, 100vw" />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
+      <Image src={seniors} alt="SCA members and seniors gathered at a home event" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 50vw, 100vw" />
+      <div>
+        <SectionHeading title="About the Senior Club" />
+        <div class="prose-sca mt-6">
+          <p>The Senior Club, managed by the Village of Scarsdale, offers a welcoming space for senior citizens in our community. To join, register for an account with the Village of Scarsdale and pay the annual membership fee of ${seniorClub.villageFee}.</p>
+          <p>Recognizing the unique needs of our Chinese-speaking senior residents, the Village of Scarsdale has partnered with the Scarsdale Chinese Association to provide tailored support and culturally enriching activities. Together, we organize events and programs designed specifically for Chinese senior citizens living in Scarsdale.</p>
+          <p>Our collaboration ensures that all senior residents, regardless of language, can engage, connect, and enjoy their golden years in a vibrant and supportive community.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="how-to-join" class="section scroll-mt-20 bg-cream">
+    <div class="container-site grid gap-10 lg:grid-cols-[7fr_5fr] lg:items-center">
+      <div>
+        <SectionHeading title="In partnership with Scarsdale Village" intro="Scarsdale seniors join the Senior Club through the Village of Scarsdale website." />
+        <ol class="mt-6 space-y-3 text-[15px]">
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">1</span><span>Scan the QR code or visit <a href={seniorClub.villageUrl} class="font-semibold text-red underline" rel="noopener">scarsdale.com</a> to create a CivicPlus account.</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">2</span><span>Select <strong>Seniors → Senior Club Membership</strong> and log in.</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">3</span><span>Pay the ${seniorClub.villageFee} annual fee, then join us on Tuesday morning at the {seniorClub.venue}.</span></li>
+        </ol>
+        <Image src={house} alt="The Girl Scout House in Scarsdale" class="mt-8 aspect-[3/2] w-full max-w-md rounded-xl object-cover shadow-card" widths={[400, 800]} sizes="400px" />
+      </div>
+      <div class="flex justify-center"><Image src={villageQr} alt="QR code linking to the Village of Scarsdale account creation page" class="w-64 rounded-xl bg-white p-3 shadow-card sm:w-80" width="320" height="320" /></div>
+    </div>
+  </section>
+
+  <Faq page="senior-club" />
+</Base>

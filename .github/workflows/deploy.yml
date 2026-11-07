@@ -1,0 +1,44 @@
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Build site
+        run: npm run build
+        env:
+          PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
+          PUBLIC_STRIPE_MEMBERSHIP_LINK: ${{ vars.PUBLIC_STRIPE_MEMBERSHIP_LINK }}
+          PUBLIC_STRIPE_DONATE_LINK: ${{ vars.PUBLIC_STRIPE_DONATE_LINK }}
+
+      # Hostinger's Git deploy copies files from a branch into public_html without building,
+      # so we publish the built site to the `deploy` branch and Hostinger auto-deploys that.
+      - name: Publish dist/ to the deploy branch
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: deploy
+          publish_dir: ./dist
+          force_orphan: true
+          commit_message: "deploy: ${{ github.sha }}"

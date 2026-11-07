@@ -1,0 +1,23 @@
+[
+  { "id": "hk-highking", "name": "U.S. Highking Asset Management Inc.", "tier": "top", "image": "../../assets/sponsors/hk-highking.jpg", "order": 1 },
+  { "id": "houlihan-lawrence", "name": "Houlihan Lawrence – Tianying (Yvonne) Xu", "tier": "top", "image": "../../assets/sponsors/houlihan-lawrence.jpg", "order": 2 },
+  { "id": "my-college-advisor", "name": "My College Advisor", "tier": "top", "image": "../../assets/sponsors/my-college-advisor.jpg", "order": 3 },
+  { "id": "new-york-life", "name": "New York Life – Li (Holly) Huo", "tier": "sponsor", "image": "../../assets/sponsors/new-york-life.jpg", "order": 10 },
+  { "id": "mandarin-restaurant", "name": "Mandarin Restaurant", "tier": "sponsor", "image": "../../assets/sponsors/mandarin-restaurant.jpg", "order": 11 },
+  { "id": "vision-land", "name": "Vision Land Eye Care", "tier": "sponsor", "image": "../../assets/sponsors/vision-land.jpg", "order": 12 },
+  { "id": "booming-minds", "name": "Booming Minds Education", "tier": "sponsor", "image": "../../assets/sponsors/booming-minds.jpg", "order": 13 },
+  { "id": "chase-global-realty", "name": "Chase Global Realty – Wenchun Wu", "tier": "sponsor", "image": "../../assets/sponsors/chase-global-realty.jpg", "order": 14 },
+  { "id": "ace-academy", "name": "ACE Academy", "tier": "sponsor", "image": "../../assets/sponsors/ace-academy.jpg", "order": 15 },
+  { "id": "ibridge-education", "name": "iBridge Education", "tier": "sponsor", "image": "../../assets/sponsors/ibridge-education.jpg", "order": 16 },
+  { "id": "american-window-plus", "name": "American Window Plus", "tier": "sponsor", "image": "../../assets/sponsors/american-window-plus.jpg", "order": 17 },
+  { "id": "may-chu-dds", "name": "May P. Chu, DDS", "tier": "sponsor", "image": "../../assets/sponsors/may-chu-dds.jpg", "order": 18 },
+  { "id": "zero-art-design", "name": "Zero Art & Design", "tier": "sponsor", "image": "../../assets/sponsors/zero-art-design.jpg", "order": 19 },
+  { "id": "crowdfunz", "name": "CrowdFunz", "tier": "sponsor", "image": "../../assets/sponsors/crowdfunz.jpg", "order": 20 },
+  { "id": "clear-pro-sewer", "name": "Clear Pro Sewer & Drain", "tier": "sponsor", "image": "../../assets/sponsors/clear-pro-sewer.jpg", "order": 21 },
+  { "id": "e-owners", "name": "E-Owners Inc.", "tier": "sponsor", "image": "../../assets/sponsors/e-owners.jpg", "order": 22 },
+  { "id": "rt-home-improvements", "name": "R.T. Home Improvements", "tier": "sponsor", "image": "../../assets/sponsors/rt-home-improvements.jpg", "order": 23 },
+  { "id": "salon-shige", "name": "Salon Shige", "tier": "sponsor", "image": "../../assets/sponsors/salon-shige.jpg", "order": 24 },
+  { "id": "yvonne-xu-team", "name": "Yvonne's Team", "tier": "sponsor", "image": "../../assets/sponsors/yvonne-xu-team.jpg", "order": 25 },
+  { "id": "fencing-club", "name": "Fencing Club", "tier": "sponsor", "image": "../../assets/sponsors/fencing-club.jpg", "order": 26 },
+  { "id": "project-ready", "name": "Project Ready (启航)", "tier": "partner", "image": "../../assets/sponsors/project-ready.jpg", "order": 40 }
+]

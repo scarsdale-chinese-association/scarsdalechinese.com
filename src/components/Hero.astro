@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+import pattern from "../assets/hero-pattern.png";
+---
+<section class="relative isolate overflow-hidden bg-red text-white">
+  <Image src={pattern} alt="" class="absolute inset-0 -z-10 h-full w-full object-cover" loading="eager" fetchpriority="high" widths={[640, 1024, 1440, 2048]} sizes="100vw" />
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-red-deep/30 via-transparent to-red-deep/40"></div>
+  <div class="container-site flex min-h-[70vh] flex-col items-center justify-center py-24 text-center sm:min-h-[560px] lg:min-h-[620px]">
+    <p class="text-sm font-bold uppercase tracking-[0.25em] text-gold">Scarsdale Chinese Association · 斯卡斯代尔华人协会</p>
+    <h1 class="mt-5 max-w-4xl text-4xl font-bold leading-tight text-white drop-shadow sm:text-5xl lg:text-6xl">
+      We serve the Chinese community by enhancing mutual communication and togetherness
+    </h1>
+    <p class="mt-6 max-w-2xl text-base text-white/85 sm:text-lg">A 501(c)(3) non-profit bringing Chinese families in Scarsdale, NY together through cultural celebrations, educational seminars, concerts, and community service.</p>
+    <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+      <a href="/join/" class="btn-gold px-8 py-3.5 text-base">Become a member</a>
+      <a href="/events/" class="btn-ghost px-8 py-3.5 text-base">See our events</a>
+    </div>
+  </div>
+</section>

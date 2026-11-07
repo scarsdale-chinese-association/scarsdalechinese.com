@@ -1,0 +1,9 @@
+---
+interface Props { title: string; intro?: string; align?: "left" | "center"; id?: string; }
+const { title, intro, align = "left", id } = Astro.props;
+---
+<div id={id} class:list={["scroll-mt-24", { "text-center": align === "center" }]}>
+  <h2 class="section-title">{title}</h2>
+  <div class:list={["section-rule", { "mx-auto max-w-xs": align === "center" }]}></div>
+  {intro && <p class:list={["prose-sca mt-5 max-w-3xl", { "mx-auto": align === "center" }]}>{intro}</p>}
+</div>

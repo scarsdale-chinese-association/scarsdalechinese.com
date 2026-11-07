@@ -1,0 +1,45 @@
+@import "tailwindcss";
+@import "@fontsource-variable/quicksand";
+
+@theme {
+  --font-sans: "Quicksand Variable", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", ui-sans-serif, system-ui, sans-serif;
+
+  --color-red: #c00000;
+  --color-red-dark: #960000;
+  --color-red-deep: #7a0000;
+  --color-cream: #f9efe1;
+  --color-cream-dark: #f1e3cc;
+  --color-gold: #f2b400;
+  --color-gold-light: #ffbc7d;
+  --color-ink: #1f1d1d;
+  --color-muted: #5c5c5c;
+  --color-line: #e5d9c5;
+
+  --shadow-card: 0 10px 30px -12px rgb(60 20 0 / 0.25);
+}
+
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-5 py-3 text-sm font-bold transition focus:outline-none focus-visible:ring-4 focus-visible:ring-gold/60;
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-white text-ink font-sans antialiased; }
+  h1, h2, h3, h4 { @apply font-semibold tracking-tight; }
+  ::selection { background: var(--color-gold); color: var(--color-ink); }
+}
+
+@layer components {
+  .container-site { @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8; }
+  .btn-red { @apply btn bg-red text-white hover:bg-red-dark; }
+  .btn-gold { @apply btn bg-gold text-ink hover:bg-[#ffc414]; }
+  .btn-outline { @apply btn border-2 border-red text-red hover:bg-red hover:text-white; }
+  .btn-ghost { @apply btn border-2 border-white/80 text-white hover:bg-white hover:text-red; }
+  .section { @apply py-16 sm:py-20 lg:py-24; }
+  .section-title { @apply text-3xl font-bold text-red sm:text-4xl lg:text-[2.75rem] lg:leading-tight; }
+  .section-rule { @apply mt-4 h-px w-full bg-red/70; }
+  .field { @apply w-full rounded-md border border-line bg-white px-3.5 py-2.5 text-base text-ink placeholder:text-muted/70 focus:border-red focus:outline-none focus:ring-2 focus:ring-red/20; }
+  .label { @apply mb-1.5 block text-sm font-semibold text-ink; }
+  .prose-sca { @apply text-[1.0625rem] leading-relaxed text-ink/90; }
+  .prose-sca p + p { @apply mt-4; }
+}

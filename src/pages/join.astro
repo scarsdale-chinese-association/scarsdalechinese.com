@@ -1,0 +1,33 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import MembershipForm from "../components/MembershipForm.astro";
+import Faq from "../components/Faq.astro";
+import FormScript from "../components/FormScript.astro";
+import { site, membership } from "../lib/site";
+import stage from "../assets/photos/sca-stage.jpg";
+---
+<Base title="Join SCA · Become a member" description={`Become a member of the Scarsdale Chinese Association. Family membership is ${membership.priceLabel}, payable by card or Zelle.`}>
+  <section class="section bg-cream">
+    <div class="container-site grid gap-12 lg:grid-cols-[4fr_7fr] lg:items-start">
+      <div>
+        <SectionHeading title="Become a SCA member" intro={`Family membership is ${membership.priceLabel}. One form covers your whole household. Pay by card through Stripe or by Zelle.`} />
+        <ol class="mt-6 space-y-3 text-[15px]">
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">1</span><span>Fill in the registration form.</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">2</span><span>Pay ${membership.price} by card (Stripe) or Zelle.</span></li>
+          <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-red text-sm font-bold text-white">3</span><span>A board member adds you to the members' WeChat group.</span></li>
+        </ol>
+        <Image src={stage} alt="SCA sign on stage with red lanterns" class="mt-8 hidden aspect-[3/4] w-full rounded-xl object-cover shadow-card lg:block" widths={[480, 960]} sizes="(min-width: 1024px) 33vw, 100vw" />
+      </div>
+      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8">
+        <h2 class="text-xl font-bold">Registration form</h2>
+        <p class="mb-5 text-sm text-muted">Fields marked <span class="text-red">*</span> are required.</p>
+        <MembershipForm />
+        <p class="mt-4 text-xs text-muted">Questions? Email <a href={`mailto:${site.email}`} class="underline hover:text-red">{site.email}</a>.</p>
+      </div>
+    </div>
+  </section>
+  <div id="faq" class="scroll-mt-20"><Faq page="membership" title="Membership FAQ" /></div>
+  <FormScript />
+</Base>

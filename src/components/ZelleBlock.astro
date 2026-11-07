@@ -1,0 +1,18 @@
+---
+import { Image } from "astro:assets";
+import zelle from "../assets/qr/zelle.png";
+import { membership } from "../lib/site";
+interface Props { amount?: string; note?: string; }
+const { amount = `$${membership.price}`, note = "Put your family name in the memo so we can match your payment." } = Astro.props;
+---
+<div class="flex flex-col gap-5 rounded-xl border border-line bg-white p-5 sm:flex-row sm:items-center">
+  <Image src={zelle} alt="Zelle QR code for Scarsdale Chinese Association" class="h-40 w-40 shrink-0 self-center rounded-md" width="160" height="160" />
+  <div class="text-sm">
+    <p class="text-base font-bold text-red">Pay by Zelle</p>
+    <p class="mt-1">Scan the QR code in your banking app, or send to:</p>
+    <p class="mt-2 font-semibold">{membership.zelle.recipient}</p>
+    <p class="select-all font-mono text-base">{membership.zelle.email}</p>
+    <p class="mt-2">Amount: <strong>{amount}</strong></p>
+    <p class="mt-1 text-muted">{note}</p>
+  </div>
+</div>

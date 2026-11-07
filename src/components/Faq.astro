@@ -1,0 +1,23 @@
+---
+import { getCollection } from "astro:content";
+interface Props { page: "membership" | "sponsors" | "senior-club"; title?: string; }
+const { page, title = "FAQ" } = Astro.props;
+const items = (await getCollection("faq", (e) => e.data.page === page)).sort((a, b) => a.data.order - b.data.order);
+---
+<section class="section">
+  <div class="container-site">
+    <h2 class="section-title">{title}</h2>
+    <div class="section-rule"></div>
+    <div class="mt-6 divide-y divide-line border-b border-line">
+      {items.map((item, i) => (
+        <details class="group py-4" open={i === 0}>
+          <summary class="flex cursor-pointer list-none items-start justify-between gap-6 text-left text-base font-semibold text-ink transition group-open:text-red sm:text-lg">
+            <span>{item.data.question}</span>
+            <span class="mt-1 shrink-0 text-red" aria-hidden="true"><svg class="h-5 w-5 transition group-open:rotate-45" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+          </summary>
+          <p class="prose-sca mt-3 max-w-4xl text-muted">{item.data.answer}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

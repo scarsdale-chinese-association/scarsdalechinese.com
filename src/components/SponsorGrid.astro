@@ -1,0 +1,23 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+interface Props { tier?: "top" | "sponsor" | "partner"; limit?: number; }
+const { tier, limit } = Astro.props;
+let sponsors = (await getCollection("sponsors", (s) => (tier ? s.data.tier === tier : true))).sort((a, b) => a.data.order - b.data.order);
+if (limit) sponsors = sponsors.slice(0, limit);
+const cols = tier === "top" ? "sm:grid-cols-3" : tier === "partner" ? "sm:grid-cols-3 lg:grid-cols-4" : "sm:grid-cols-3 lg:grid-cols-4";
+---
+<ul class:list={["grid grid-cols-2 gap-4 sm:gap-6", cols]} role="list">
+  {sponsors.map((s) => (
+    <li class="overflow-hidden rounded-xl bg-white shadow-card ring-1 ring-line/60">
+      {s.data.url ? (
+        <a href={s.data.url} rel="noopener sponsored" target="_blank" class="block">
+          <Image src={s.data.image} alt={s.data.name} class="aspect-[3/4] w-full bg-cream/40 object-contain p-2" widths={[300, 600, 900]} sizes="(min-width: 1024px) 300px, 50vw" />
+        </a>
+      ) : (
+        <Image src={s.data.image} alt={s.data.name} class="aspect-[3/4] w-full bg-cream/40 object-contain p-2" widths={[300, 600, 900]} sizes="(min-width: 1024px) 300px, 50vw" />
+      )}
+      <p class="px-3 py-2.5 text-center text-sm font-semibold text-ink">{s.data.name}</p>
+    </li>
+  ))}
+</ul>

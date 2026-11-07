@@ -1,0 +1,19 @@
+---
+import { getCollection } from "astro:content";
+const members = (await getCollection("board")).sort((a, b) => a.data.order - b.data.order);
+const initials = (n: string) =>
+  n.replace(/\(.*?\)/g, "").trim().split(/\s+/).map((w) => w[0]).join("").slice(0, 2).toUpperCase();
+---
+<ul class="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5" role="list">
+  {members.map((m) => (
+    <li class="flex flex-col items-center rounded-xl bg-white p-5 text-center shadow-card ring-1 ring-line/60">
+      {m.data.photo ? (
+        <img src={m.data.photo} alt={`Portrait of ${m.data.name}`} class="h-24 w-24 rounded-full object-cover ring-4 ring-cream" loading="lazy" width="96" height="96" />
+      ) : (
+        <span class="grid h-24 w-24 place-items-center rounded-full bg-cream text-2xl font-bold text-red ring-4 ring-cream" aria-hidden="true">{initials(m.data.name)}</span>
+      )}
+      <p class="mt-4 font-bold text-ink">{m.data.name}</p>
+      <p class="text-sm text-muted">{m.data.role}</p>
+    </li>
+  ))}
+</ul>

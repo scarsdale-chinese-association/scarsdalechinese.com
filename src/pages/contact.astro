@@ -1,0 +1,23 @@
+---
+import Base from "../layouts/Base.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import ContactForm from "../components/ContactForm.astro";
+import FormScript from "../components/FormScript.astro";
+import { site } from "../lib/site";
+---
+<Base title="Contact SCA" description="Get in touch with the Scarsdale Chinese Association.">
+  <section class="section bg-cream">
+    <div class="container-site grid gap-10 lg:grid-cols-2 lg:items-start">
+      <div>
+        <SectionHeading title="Have a question?" intro="Send us a message and a board member will get back to you. For membership questions, see the FAQ on the Join page first." />
+        <ul class="mt-6 space-y-2 text-[15px]">
+          <li>✉️ <a href={`mailto:${site.email}`} class="font-semibold hover:text-red">{site.email}</a></li>
+          <li>☎️ <a href={site.phoneHref} class="font-semibold hover:text-red">{site.phone}</a></li>
+          <li>📮 {site.address}</li>
+        </ul>
+      </div>
+      <div class="rounded-2xl bg-white p-5 shadow-card ring-1 ring-line/60 sm:p-8"><ContactForm /></div>
+    </div>
+  </section>
+  <FormScript />
+</Base>
