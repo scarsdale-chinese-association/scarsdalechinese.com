@@ -29,6 +29,8 @@ const board = defineCollection({
     nameZh: z.string().optional(),
     role: z.string(),
     photo: z.string().optional(),
+    /** Silhouette shown until a headshot is added. Defaults to the male/neutral bust. */
+    avatar: z.enum(["male", "female"]).optional(),
     order: z.number(),
   }),
 });
