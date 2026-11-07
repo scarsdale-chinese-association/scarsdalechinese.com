@@ -4,8 +4,8 @@ import Base from "../layouts/Base.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Faq from "../components/Faq.astro";
 import { seniorClub } from "../lib/site";
-import collage from "../assets/photos/seniors-table.jpg";
-import seniors from "../assets/photos/house-group.jpg";
+import collage from "../assets/photos/senior-collage.jpg";
+import seniors from "../assets/photos/banquet.jpg";
 import house from "../assets/photos/girl-scout-house.jpg";
 import villageQr from "../assets/qr/scarsdale-village.png";
 ---
@@ -27,7 +27,7 @@ import villageQr from "../assets/qr/scarsdale-village.png";
 
   <section class="section">
     <div class="container-site grid gap-12 lg:grid-cols-2 lg:items-center">
-      <Image src={seniors} alt="SCA members and seniors gathered at a home event" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 50vw, 100vw" />
+      <Image src={seniors} alt="SCA members gathered at a community banquet" class="aspect-[4/3] w-full rounded-2xl object-cover shadow-card" widths={[600, 1200]} sizes="(min-width: 1024px) 50vw, 100vw" />
       <div>
         <SectionHeading title="About the Senior Club" />
         <div class="prose-sca mt-6">
