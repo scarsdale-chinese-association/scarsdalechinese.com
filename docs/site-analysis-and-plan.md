@@ -116,6 +116,8 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 Â
 
 **RSVP (2026-11-06).** Upcoming events without an external `rsvpUrl` show an "I'll be there" form (name, email, phone, party size, note). Submissions go to the `rsvp` tab of the SCA Members sheet (one row per RSVP, with the event slug for filtering) and email info@. Apps Script is at deployment version 2; the web-app URL is unchanged. Verified end to end with a temporary test event; one test row remains in the rsvp tab and can be deleted.
 
+**Analytics, Search Console, SEO (2026-11-06).** GA4 property 453645794 (stream G-B23GBN9ML9) is wired in via `PUBLIC_GA_ID`; chris@firstratetechcorp.com is a GA account Administrator and a Search Console Owner on the `sc-domain:scarsdalechinese.com` property. The site now ships Organization/NGO + WebSite JSON-LD on every page, FAQPage on Join/Sponsors/Senior Club, Event on event pages, a default Open Graph image, `noindex` on thank-you/404, explicit allow rules for AI crawlers in robots.txt, and `/llms.txt`. After cutover: submit `https://scarsdalechinese.com/sitemap-index.xml` in Search Console and fix the SPF record to include Google (`v=spf1 include:_spf.google.com ~all`) since mail is on Google Workspace.
+
 **Still to do (needs a human)**
 1. Collect 9 board headshots (square JPG) â†’ `public/board/` and add `"photo"` in `src/content/data/board.json`.
 2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
