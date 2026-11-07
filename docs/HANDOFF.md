@@ -88,7 +88,7 @@ acmedental.com" → `src/content/data/sponsors.json` + image in `src/assets/spon
 `sponsor`, `partner`.
 
 **Board changes.** "Replace the treasurer with Jane Lin, Chinese name 林洁" → `src/content/data/board.json`.
-Headshots go in `public/board/` as square JPGs; add `"photo": "/board/jane-lin.jpg"`.
+Until there is a headshot, each member shows a red head silhouette; `"avatar": "female"` picks the long-hair one, otherwise the short-hair bust. Headshots go in `public/board/` as square JPGs; add `"photo": "/board/jane-lin.jpg"`.
 
 **Change copy, price, contact details.** "Change the membership price to $45" → `src/lib/site.ts`
 (and you must also change the Stripe price; Claude Code will remind you). "Reword the second paragraph

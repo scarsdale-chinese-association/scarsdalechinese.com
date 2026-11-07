@@ -10,7 +10,7 @@ New to managing this site? Start with [`docs/HANDOFF.md`](docs/HANDOFF.md).
 | What | Where |
 |---|---|
 | Events | `src/content/events/*.md` (one file per event; upcoming vs past is computed from `date`). Upcoming events get an RSVP form automatically unless `rsvpUrl` points to an external ticket page. RSVPs land in the `rsvp` tab of the Sheet. |
-| Board members | `src/content/data/board.json` (add `"photo": "/board/<file>.jpg"` once headshots are in `public/board/`) |
+| Board members | `src/content/data/board.json` (`"avatar": "female"` or `"male"` picks the silhouette; add `"photo": "/board/<file>.jpg"` once headshots are in `public/board/`) |
 | Sponsors | `src/content/data/sponsors.json` + image in `src/assets/sponsors/` |
 | FAQ | `src/content/data/faq.json` |
 | Contact info, price, Zelle | `src/lib/site.ts` |
