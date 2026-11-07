@@ -97,3 +97,22 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 �
 5. Redirects, GA4, sitemap, favicon, OG images.
 6. Figma true-up and mobile frames.
 7. Switch DNS/public_html from WordPress to the new site; keep a WP export as backup.
+
+---
+
+## 8. Status · 2026-11-06 (end of build session)
+
+**Done**
+- Astro site built and pushed: https://github.com/scarsdale-chinese-association/scarsdalechinese.com (public, `main`).
+- GitHub Action builds on every push and publishes `dist/` to the `deploy` branch; Hostinger auto-deploys that branch to **https://new.scarsdalechinese.com** (Business plan, Git integration, site type PHP/HTML). The live WordPress site at scarsdalechinese.com is untouched.
+- Stripe (SCA account): product **SCA Family Membership** $40/year recurring, Payment Link `https://buy.stripe.com/28EeVddvLg8I2an2hZe3e00`; donation link (customer chooses amount, $25–$10,000, preset $250) `https://donate.stripe.com/aFa6oH0IZ9KkbKXg8Pe3e01`. Both redirect to the site's thank-you page and are set as GitHub build variables. Tax collection is off (membership dues / donations).
+- Google Sheet **SCA Members** (owned by scarsdalechineseassociation@gmail.com): https://docs.google.com/spreadsheets/d/1jIr0YMogI2Z0Zmk3AjejhOlHxhrvvDW9KBIrBfMGfJE
+- Apps Script project **SCA Forms** created with `Code.gs` pasted and `SHEET_ID` set: https://script.google.com/home/projects/1kzA-ixxnJoYIabtR2l5W7r1jIn7NEbXAMko4qjX3GuJ0u0GjrPG9e2VN/edit
+- Figma: pages `02 · Astro site · Desktop` and `03 · Astro site · Mobile` hold DOM captures of all six pages (editable layers, Quicksand fonts). The 2024 section on Page 1 is marked superseded and a true-up note lists every content change.
+
+**Still to do (needs a human)**
+1. **Authorize the Apps Script** (one click): in the SCA Forms editor, Run → `setup` → "Review permissions" → choose scarsdalechineseassociation@gmail.com → Allow. Then Deploy → New deployment → Web app (Execute as Me, Anyone) → copy the URL → GitHub repo Settings → Variables → `PUBLIC_FORM_ENDPOINT`. Until then, forms show "form service is not configured" and fall back to email.
+2. Collect 9 board headshots (square JPG) → `public/board/` and add `"photo"` in `src/content/data/board.json`.
+3. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
+4. Review new.scarsdalechinese.com; when approved, switch the main domain: in hPanel, point the Git deployment at scarsdalechinese.com's `public_html` (or swap domains), keep a WordPress backup first.
+5. Optional phase 2: Stripe webhook → Sheet (see scripts/apps-script/README.md), Chinese/English toggle, Decap CMS.
