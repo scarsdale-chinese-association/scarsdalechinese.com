@@ -116,6 +116,8 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 �
 
 **RSVP (2026-11-06).** Upcoming events without an external `rsvpUrl` show an "I'll be there" form (name, email, phone, party size, note). Submissions go to the `rsvp` tab of the SCA Members sheet (one row per RSVP, with the event slug for filtering) and email info@. Apps Script is at deployment version 2; the web-app URL is unchanged. Verified end to end with a temporary test event; one test row remains in the rsvp tab and can be deleted.
 
+**Senior Club page (2026-11-06, later).** Real member photos replaced the stock collage. The Village QR code now has a caption ("Village of Scarsdale account sign-up") and a "Create your Village account" button for people reading on a phone, pointing at `https://www.scarsdale.gov/MyAccount/ProfileCreate` — the same CivicPlus registration page the printed QR code resolves to (scarsdale.com now redirects to scarsdale.gov, so `seniorClub.villageUrl` / `villageSignupUrl` in `src/lib/site.ts` use the .gov host). Figma desktop + mobile frames for Home and Senior Club were recaptured.
+
 **Analytics, Search Console, SEO (2026-11-06).** GA4 property 453645794 (stream G-B23GBN9ML9) is wired in via `PUBLIC_GA_ID`; chris@firstratetechcorp.com is a GA account Administrator and a Search Console Owner on the `sc-domain:scarsdalechinese.com` property. The site now ships Organization/NGO + WebSite JSON-LD on every page, FAQPage on Join/Sponsors/Senior Club, Event on event pages, a default Open Graph image, `noindex` on thank-you/404, explicit allow rules for AI crawlers in robots.txt, and `/llms.txt`. After cutover: submit `https://scarsdalechinese.com/sitemap-index.xml` in Search Console and fix the SPF record to include Google (`v=spf1 include:_spf.google.com ~all`) since mail is on Google Workspace.
 
 **Cutover done (2026-11-06, evening).** The WordPress sites (scarsdalechinese.com and its staging subdomain) were deleted in hPanel and the Astro site's domain was changed from new.scarsdalechinese.com to **scarsdalechinese.com**. The Git auto-deployment stayed attached; a manual Redeploy plus Clear cache was needed once after the rename. https://scarsdalechinese.com, www → apex, and the old WordPress URL redirects all verified. MX stayed on Google. The new.scarsdalechinese.com subdomain no longer exists.
@@ -123,5 +125,5 @@ File: Scarsdale-Chinese-Association (kwew0QXFaDx4rCYSWhaP9F). Page 1 has a "01 �
 **Still to do (needs a human)**
 1. Collect 9 board headshots (square JPG) → `public/board/` and add `"photo"` in `src/content/data/board.json`.
 2. Confirm footer phone / P.O. Box, and the Zelle email (currently scarsdalechinese@yahoo.com).
-3. Senior Club photos from the member who is sending them (replace the collage in `src/assets/photos/senior-collage.jpg`).
+3. ~~Senior Club photos~~ Done 2026-11-06: 12 member photos in `src/assets/photos/seniors/` (fan-dance hero, group photo, "Club life" gallery); the choir photo is also on the home page.
 4. Optional phase 2: Stripe webhook → Sheet (see scripts/apps-script/README.md), Chinese/English toggle, Decap CMS.
