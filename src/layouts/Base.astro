@@ -34,6 +34,7 @@ const canonical = new URL(Astro.url.pathname, site.url).href;
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="theme-color" content="#c00000" />
     <meta name="generator" content={Astro.generator} />
+    {import.meta.env.DEV && <script src="https://mcp.figma.com/mcp/html-to-design/capture.js" async></script>}
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "NGO",
