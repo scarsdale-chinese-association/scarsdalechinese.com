@@ -31,6 +31,7 @@ jobs:
           PUBLIC_FORM_ENDPOINT: ${{ vars.PUBLIC_FORM_ENDPOINT }}
           PUBLIC_STRIPE_MEMBERSHIP_LINK: ${{ vars.PUBLIC_STRIPE_MEMBERSHIP_LINK }}
           PUBLIC_STRIPE_DONATE_LINK: ${{ vars.PUBLIC_STRIPE_DONATE_LINK }}
+          PUBLIC_GA_ID: ${{ vars.PUBLIC_GA_ID }}
 
       # Hostinger's Git deploy copies files from a branch into public_html without building,
       # so we publish the built site to the `deploy` branch and Hostinger auto-deploys that.
